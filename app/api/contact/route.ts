@@ -1,64 +1,69 @@
-import { NextResponse } from "next/server"
-import nodemailer from "nodemailer"
+import { type NextRequest, NextResponse } from "next/server"
+import { getSupabaseAdminClient } from "@/lib/supabase"
+import { sendContactEmail, sendAdminNotificationEmail } from "@/lib/email"
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   try {
-    const { name, email, subject, message } = await request.json()
+    const body = await request.json()
+    const { name, email, subject, message } = body
 
-    // Basic validation
+    // Validate required fields
     if (!name || !email || !subject || !message) {
-      return NextResponse.json({ error: "All fields are required." }, { status: 400 })
+      return NextResponse.json({ error: "Missing required fields" }, { status: 400 })
     }
 
-    // Configure Nodemailer transporter
-    const transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST,
-      port: Number(process.env.SMTP_PORT),
-      secure: process.env.SMTP_SECURE === "true", // Use 'true' for 465, 'false' for 587
-      auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASSWORD,
-      },
-    })
+    const supabase = getSupabaseAdminClient()
 
-    // Email to Ngonzi Tours admin
-    const mailToAdmin = {
-      from: process.env.SMTP_USER, // Sender email (your configured SMTP user)
-      to: process.env.ADMIN_EMAIL, // Admin email from .env.local
-      subject: `New Contact Form Submission: ${subject}`,
-      html: `
-        <p>You have received a new message from the Ngonzi Tours website contact form.</p>
-        <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Subject:</strong> ${subject}</p>
-        <p><strong>Message:</strong><br/>${message}</p>
-      `,
+    // Insert contact into database
+    const { data, error } = await supabase
+      .from("contacts")
+      .insert([
+        {
+          name,
+          email,
+          subject,
+          message,
+          status: "new",
+          created_at: new Date().toISOString(),
+        },
+      ])
+      .select()
+
+    if (error) {
+      console.error("Database error:", error)
+      return NextResponse.json({ error: "Failed to save contact" }, { status: 500 })
     }
 
-    // Email confirmation to the user
-    const mailToUser = {
-      from: process.env.SMTP_USER, // Sender email
-      to: email, // User's email
-      subject: `Confirmation: Your Ngonzi Tours Inquiry - ${subject}`,
-      html: `
-        <p>Dear ${name},</p>
-        <p>Thank you for contacting Ngonzi Tours. We have received your message and will get back to you as soon as possible, typically within 24-48 hours.</p>
-        <p>Here is a copy of your message:</p>
-        <p><strong>Subject:</strong> ${subject}</p>
-        <p><strong>Message:</strong><br/>${message}</p>
-        <p>We look forward to helping you plan your unforgettable African adventure!</p>
-        <p>Best regards,</p>
-        <p>The Ngonzi Tours Team</p>
-        <p><a href="${process.env.NEXT_PUBLIC_SITE_URL}">${process.env.NEXT_PUBLIC_SITE_URL}</a></p>
-      `,
+    // Send confirmation email to customer
+    try {
+      await sendContactEmail({
+        to: email,
+        name,
+        subject,
+        message,
+      })
+    } catch (emailError) {
+      console.error("Failed to send confirmation email:", emailError)
     }
 
-    await transporter.sendMail(mailToAdmin)
-    await transporter.sendMail(mailToUser)
+    // Send notification email to admin
+    try {
+      await sendAdminNotificationEmail({
+        type: "contact",
+        data: {
+          name,
+          email,
+          subject,
+          message,
+        },
+      })
+    } catch (emailError) {
+      console.error("Failed to send admin notification:", emailError)
+    }
 
-    return NextResponse.json({ message: "Message sent successfully!" }, { status: 200 })
+    return NextResponse.json({ message: "Contact form submitted successfully", data }, { status: 200 })
   } catch (error) {
-    console.error("Error sending contact email:", error)
-    return NextResponse.json({ error: "Failed to send message." }, { status: 500 })
+    console.error("Contact API error:", error)
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 })
   }
 }

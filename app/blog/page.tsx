@@ -1,97 +1,209 @@
-import type { Metadata } from "next"
-import Image from "next/image"
+import { Suspense } from "react"
 import Link from "next/link"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { ArrowRight, Calendar } from "lucide-react"
+import Image from "next/image"
+import { Card, CardContent, CardHeader } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { blogPosts, getFeaturedBlogPosts, getBlogPostsByCategory } from "@/lib/data"
+import { Clock } from "lucide-react"
 
-export const metadata: Metadata = {
-  title: "Blog - Ngonzi Tours",
-  description: "Read the latest articles, travel tips, and safari stories from Ngonzi Tours.",
+function BlogContent() {
+  const featuredPosts = getFeaturedBlogPosts()
+  const photographyPosts = getBlogPostsByCategory("Photography")
+  const adventurePosts = getBlogPostsByCategory("Adventure")
+  const culturePosts = getBlogPostsByCategory("Culture")
+  const conservationPosts = getBlogPostsByCategory("Conservation")
+  const travelTipsPosts = getBlogPostsByCategory("Travel Tips")
+
+  const categories = [
+    { name: "Photography", posts: photographyPosts, color: "bg-blue-100 text-blue-800" },
+    { name: "Adventure", posts: adventurePosts, color: "bg-green-100 text-green-800" },
+    { name: "Culture", posts: culturePosts, color: "bg-purple-100 text-purple-800" },
+    { name: "Conservation", posts: conservationPosts, color: "bg-orange-100 text-orange-800" },
+    { name: "Travel Tips", posts: travelTipsPosts, color: "bg-red-100 text-red-800" },
+  ]
+
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-green-50 to-white">
+      <div className="container mx-auto px-4 py-8">
+        {/* Header */}
+        <div className="text-center mb-12">
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">Safari Stories & Travel Insights</h1>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            Discover the wonders of East Africa through our expert guides, travel tips, and inspiring stories from the
+            field.
+          </p>
+        </div>
+
+        {/* Featured Posts */}
+        {featuredPosts.length > 0 && (
+          <section className="mb-16">
+            <h2 className="text-3xl font-bold text-gray-900 mb-8">Featured Stories</h2>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {featuredPosts.map((post) => (
+                <Card key={post.id} className="overflow-hidden hover:shadow-lg transition-shadow">
+                  <div className="relative h-48">
+                    <Image src={post.image || "/placeholder.svg"} alt={post.title} fill className="object-cover" />
+                    <Badge className="absolute top-4 left-4 bg-green-600 hover:bg-green-700">Featured</Badge>
+                  </div>
+                  <CardHeader>
+                    <div className="flex items-center gap-2 text-sm text-gray-500 mb-2">
+                      <Badge variant="secondary">{post.category}</Badge>
+                      <div className="flex items-center gap-1">
+                        <Clock className="h-4 w-4" />
+                        {post.readTime}
+                      </div>
+                    </div>
+                    <h3 className="text-xl font-semibold line-clamp-2">
+                      <Link href={`/blog/${post.slug}`} className="hover:text-green-600 transition-colors">
+                        {post.title}
+                      </Link>
+                    </h3>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-gray-600 line-clamp-3 mb-4">{post.excerpt}</p>
+                    <div className="flex items-center gap-3">
+                      <Avatar className="h-8 w-8">
+                        <AvatarImage src={post.author.avatar || "/placeholder.svg"} alt={post.author.name} />
+                        <AvatarFallback>
+                          {post.author.name
+                            .split(" ")
+                            .map((n: string) => n[0])
+                            .join("")}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div>
+                        <p className="text-sm font-medium">{post.author.name}</p>
+                        <p className="text-xs text-gray-500">
+                          {new Date(post.publishedAt).toLocaleDateString("en-US", {
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
+                          })}
+                        </p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* Categories */}
+        <section className="mb-16">
+          <h2 className="text-3xl font-bold text-gray-900 mb-8">Browse by Category</h2>
+          <div className="space-y-12">
+            {categories.map(
+              (category) =>
+                category.posts.length > 0 && (
+                  <div key={category.name}>
+                    <div className="flex items-center gap-3 mb-6">
+                      <h3 className="text-2xl font-bold text-gray-900">{category.name}</h3>
+                      <Badge className={category.color}>{category.posts.length} posts</Badge>
+                    </div>
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                      {category.posts.map((post) => (
+                        <Card key={post.id} className="overflow-hidden hover:shadow-lg transition-shadow">
+                          <div className="relative h-40">
+                            <Image
+                              src={post.image || "/placeholder.svg"}
+                              alt={post.title}
+                              fill
+                              className="object-cover"
+                            />
+                          </div>
+                          <CardHeader className="pb-2">
+                            <div className="flex items-center gap-2 text-sm text-gray-500 mb-2">
+                              <div className="flex items-center gap-1">
+                                <Clock className="h-4 w-4" />
+                                {post.readTime}
+                              </div>
+                            </div>
+                            <h4 className="text-lg font-semibold line-clamp-2">
+                              <Link href={`/blog/${post.slug}`} className="hover:text-green-600 transition-colors">
+                                {post.title}
+                              </Link>
+                            </h4>
+                          </CardHeader>
+                          <CardContent className="pt-0">
+                            <p className="text-gray-600 line-clamp-2 mb-3">{post.excerpt}</p>
+                            <div className="flex items-center gap-2">
+                              <Avatar className="h-6 w-6">
+                                <AvatarImage src={post.author.avatar || "/placeholder.svg"} alt={post.author.name} />
+                                <AvatarFallback className="text-xs">
+                                  {post.author.name
+                                    .split(" ")
+                                    .map((n: string) => n[0])
+                                    .join("")}
+                                </AvatarFallback>
+                              </Avatar>
+                              <p className="text-sm text-gray-600">{post.author.name}</p>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      ))}
+                    </div>
+                  </div>
+                ),
+            )}
+          </div>
+        </section>
+
+        {/* All Posts */}
+        <section>
+          <h2 className="text-3xl font-bold text-gray-900 mb-8">All Posts</h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {blogPosts.map((post) => (
+              <Card key={post.id} className="overflow-hidden hover:shadow-lg transition-shadow">
+                <div className="relative h-40">
+                  <Image src={post.image || "/placeholder.svg"} alt={post.title} fill className="object-cover" />
+                  {post.featured && (
+                    <Badge className="absolute top-3 left-3 bg-green-600 hover:bg-green-700">Featured</Badge>
+                  )}
+                </div>
+                <CardHeader className="pb-2">
+                  <div className="flex items-center gap-2 text-sm text-gray-500 mb-2">
+                    <Badge variant="secondary">{post.category}</Badge>
+                    <div className="flex items-center gap-1">
+                      <Clock className="h-4 w-4" />
+                      {post.readTime}
+                    </div>
+                  </div>
+                  <h4 className="text-lg font-semibold line-clamp-2">
+                    <Link href={`/blog/${post.slug}`} className="hover:text-green-600 transition-colors">
+                      {post.title}
+                    </Link>
+                  </h4>
+                </CardHeader>
+                <CardContent className="pt-0">
+                  <p className="text-gray-600 line-clamp-2 mb-3">{post.excerpt}</p>
+                  <div className="flex items-center gap-2">
+                    <Avatar className="h-6 w-6">
+                      <AvatarImage src={post.author.avatar || "/placeholder.svg"} alt={post.author.name} />
+                      <AvatarFallback className="text-xs">
+                        {post.author.name
+                          .split(" ")
+                          .map((n: string) => n[0])
+                          .join("")}
+                      </AvatarFallback>
+                    </Avatar>
+                    <p className="text-sm text-gray-600">{post.author.name}</p>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </section>
+      </div>
+    </div>
+  )
 }
-
-// Dummy blog posts - replace with actual data fetching from Supabase
-const blogPosts = [
-  {
-    slug: "great-migration-guide",
-    title: "The Ultimate Guide to the Great Migration",
-    description:
-      "Witness one of nature's most spectacular events. Learn when and where to see the wildebeest migration.",
-    image: "/images/nyumbu.jpeg",
-    date: "July 20, 2025",
-  },
-  {
-    slug: "kilimanjaro-preparation",
-    title: "Preparing for Your Kilimanjaro Climb",
-    description: "Essential tips and advice to get you ready for conquering Africa's highest peak.",
-    image: "/images/Kilimanjaro.webp",
-    date: "June 15, 2025",
-  },
-  {
-    slug: "zanzibar-hidden-gems",
-    title: "Zanzibar's Hidden Gems: Beyond the Beaches",
-    description: "Explore the lesser-known attractions and cultural experiences on the spice island.",
-    image: "/images/stone-town.jpg",
-    date: "May 10, 2025",
-  },
-  {
-    slug: "ethical-safari-tips",
-    title: "How to Have an Ethical Safari Experience",
-    description: "Learn how to travel responsibly and support local communities and conservation efforts.",
-    image: "/images/gt1.jpg",
-    date: "April 22, 2025",
-  },
-  {
-    slug: "photography-tips",
-    title: "Safari Photography: Capturing the Wild",
-    description: "Tips and tricks for taking stunning wildlife photos on your African adventure.",
-    image: "/images/chui.jpg",
-    date: "March 5, 2025",
-  },
-  {
-    slug: "maasai-culture",
-    title: "Understanding Maasai Culture: A Respectful Encounter",
-    description: "Insights into the traditions and lifestyle of the iconic Maasai people.",
-    image: "/images/cultural.webp",
-    date: "February 18, 2025",
-  },
-]
 
 export default function BlogPage() {
   return (
-    <div className="container mx-auto px-4 py-8 md:py-12">
-      <h1 className="mb-4 text-3xl font-bold md:text-5xl">Our Blog</h1>
-      <p className="mb-8 text-xl text-muted-foreground">
-        Stay updated with the latest travel insights, safari stories, and tips for your East African adventure.
-      </p>
-
-      <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-        {blogPosts.map((post) => (
-          <Card key={post.slug} className="flex flex-col">
-            <div className="relative h-48 w-full">
-              <Image
-                src={post.image || "/placeholder.svg"}
-                alt={post.title}
-                fill
-                className="rounded-t-lg object-cover"
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              />
-            </div>
-            <CardHeader>
-              <CardTitle>{post.title}</CardTitle>
-              <CardDescription className="line-clamp-3">{post.description}</CardDescription>
-            </CardHeader>
-            <CardContent className="flex-grow">
-              <div className="mb-2 flex items-center text-sm text-muted-foreground">
-                <Calendar className="mr-2 size-4" />
-                {post.date}
-              </div>
-              <Link href={`/blog/${post.slug}`} className="inline-flex items-center text-primary hover:underline">
-                Read More <ArrowRight className="ml-1 size-4" />
-              </Link>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-    </div>
+    <Suspense fallback={<div>Loading...</div>}>
+      <BlogContent />
+    </Suspense>
   )
 }

@@ -5,6 +5,7 @@ import "./globals.css"
 import { cn } from "@/lib/utils"
 import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
+import { WhatsAppFloat } from "@/components/whatsapp-float"
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" })
 
@@ -63,7 +64,7 @@ export const metadata: Metadata = {
     apple: "/apple-touch-icon.png", // If you have one
   },
   manifest: "/site.webmanifest", // If you have one
-    generator: 'v0.dev'
+  generator: "v0.dev",
 }
 
 export default function RootLayout({
@@ -78,6 +79,7 @@ export default function RootLayout({
           <Navigation />
           <main className="flex-grow">{children}</main>
           <Footer />
+          <WhatsAppFloat />
         </div>
       </body>
     </html>

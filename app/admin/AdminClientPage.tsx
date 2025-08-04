@@ -1,11 +1,9 @@
 "use client"
 
 import { CardDescription } from "@/components/ui/card"
-
 import type React from "react"
-
 import { useState, useEffect } from "react"
-import { createClient } from "@/lib/supabase"
+import { getSupabaseClient } from "@/lib/supabase"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -46,7 +44,7 @@ interface AdminUser {
 }
 
 export function AdminClientPage() {
-  const supabase = createClient()
+  const supabase = getSupabaseClient()
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -229,7 +227,7 @@ export function AdminClientPage() {
                         <TableCell>{contact.email}</TableCell>
                         <TableCell>{contact.subject}</TableCell>
                         <TableCell>{contact.message}</TableCell>
-                        <TableCell>{contact.created_at}</TableCell>
+                        <TableCell>{new Date(contact.created_at).toLocaleDateString()}</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
@@ -257,8 +255,8 @@ export function AdminClientPage() {
                       <TableHead>Country</TableHead>
                       <TableHead>Tour Name</TableHead>
                       <TableHead>Preferred Dates</TableHead>
-                      <TableHead>Number of Adults</TableHead>
-                      <TableHead>Number of Children</TableHead>
+                      <TableHead>Adults</TableHead>
+                      <TableHead>Children</TableHead>
                       <TableHead>Message</TableHead>
                       <TableHead>Booking Date</TableHead>
                     </TableRow>
@@ -268,14 +266,14 @@ export function AdminClientPage() {
                       <TableRow key={booking.id}>
                         <TableCell>{booking.full_name}</TableCell>
                         <TableCell>{booking.email}</TableCell>
-                        <TableCell>{booking.phone}</TableCell>
-                        <TableCell>{booking.country}</TableCell>
+                        <TableCell>{booking.phone || "N/A"}</TableCell>
+                        <TableCell>{booking.country || "N/A"}</TableCell>
                         <TableCell>{booking.tour_name}</TableCell>
                         <TableCell>{booking.preferred_dates}</TableCell>
                         <TableCell>{booking.number_of_adults}</TableCell>
-                        <TableCell>{booking.number_of_children}</TableCell>
-                        <TableCell>{booking.message}</TableCell>
-                        <TableCell>{booking.booking_date}</TableCell>
+                        <TableCell>{booking.number_of_children || "N/A"}</TableCell>
+                        <TableCell>{booking.message || "N/A"}</TableCell>
+                        <TableCell>{new Date(booking.booking_date).toLocaleDateString()}</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>

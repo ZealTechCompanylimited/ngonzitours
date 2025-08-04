@@ -121,7 +121,7 @@ export default function PrivacyPolicyPage() {
         <p className="text-lg font-medium">
           Email:{" "}
           <a href="mailto:info@ngonzitours.com" className="text-primary hover:underline">
-            info@ngonzitours.com
+            bookings@ngonzitours.com
           </a>
         </p>
       </section>

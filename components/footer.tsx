@@ -105,7 +105,7 @@ export function Footer() {
             <li className="flex items-center gap-2">
               <Mail className="h-4 w-4" />
               <a href="mailto:info@ngonzitours.com" className="hover:underline">
-                info@ngonzitours.com
+                bookings@ngonzitours.com
               </a>
             </li>
             <li className="flex items-center gap-2">

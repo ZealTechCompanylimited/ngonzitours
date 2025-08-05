@@ -4,6 +4,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import { destinations } from "@/lib/data"
 import {
   MapPin,
   Globe,
@@ -112,6 +113,8 @@ const stats = [
 ]
 
 export default function KenyaPage() {
+  const kenyaDestinations = destinations.filter((dest) => dest.country === "Kenya")
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-orange-50">
       {/* Hero Section */}
@@ -385,63 +388,31 @@ export default function KenyaPage() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {[
-              {
-                name: "Maasai Mara",
-                image: "/images/kenya G.webp",
-                description: "Witness the Great Migration and Big Five wildlife",
-                highlights: ["Great Migration", "Big Five", "Maasai Culture"],
-              },
-              {
-                name: "Amboseli National Park",
-                image: "/images/amboseli.jpg",
-                description: "Large elephant herds with Mount Kilimanjaro backdrop",
-                highlights: ["Elephant Herds", "Kilimanjaro Views", "Bird Watching"],
-              },
-              {
-                name: "Mount Kenya",
-                image: "/placeholder.svg?height=300&width=400",
-                description: "Africa's second-highest peak and UNESCO site",
-                highlights: ["Mountain Trekking", "Alpine Flora", "Point Lenana"],
-              },
-            ].map((destination, index) => (
-              <Card
-                key={index}
-                className="overflow-hidden group hover:shadow-xl transition-all duration-500 bg-white transform hover:-translate-y-1"
+            {kenyaDestinations.map((destination) => (
+              <Link
+                key={destination.id}
+                href={`/destinations/${destination.slug}`}
+                className="group relative h-96 overflow-hidden rounded-lg shadow-lg"
               >
-                <div className="relative h-48">
-                  <Image
-                    src={destination.image || "/placeholder.svg"}
-                    alt={destination.name}
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                  <div className="absolute bottom-4 left-4 right-4">
-                    <h3 className="text-lg font-bold text-white mb-1">{destination.name}</h3>
-                  </div>
-                </div>
-                <CardContent className="p-6">
-                  <p className="text-gray-600 mb-4 leading-relaxed">{destination.description}</p>
+                <Image
+                  src={destination.images[0] || "/placeholder.svg"}
+                  alt={destination.name}
+                  fill
+                  className="object-cover group-hover:scale-110 transition-transform duration-300"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent flex flex-col justify-end p-6">
+                  <h3 className="text-white text-2xl font-bold mb-2">{destination.name}</h3>
+                  <p className="text-white/90 line-clamp-3 mb-4">{destination.shortDescription}</p>
                   <div className="flex flex-wrap gap-2 mb-4">
-                    {destination.highlights.map((highlight, idx) => (
-                      <Badge key={idx} variant="outline" className="text-xs">
+                    {destination.highlights.slice(0, 3).map((highlight, index) => (
+                      <span key={index} className="bg-white/20 text-white text-xs px-2 py-1 rounded-full">
                         {highlight}
-                      </Badge>
+                      </span>
                     ))}
                   </div>
-                  <Button
-                    variant="outline"
-                    className="w-full hover:bg-gray-50 transition-all duration-300 bg-transparent"
-                    asChild
-                  >
-                    <Link href={`/destinations/${destination.name.toLowerCase().replace(/\s+/g, "-")}`}>
-                      <Eye className="h-4 w-4 mr-2" />
-                      Explore Destination
-                    </Link>
-                  </Button>
-                </CardContent>
-              </Card>
+                  <span className="text-amber-400 font-medium group-hover:underline">Explore Destination</span>
+                </div>
+              </Link>
             ))}
           </div>
         </div>

@@ -1,429 +1,275 @@
 import type { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
 import { getToursByCategory } from "@/lib/data"
-import {
-  Mountain,
-  Clock,
-  Users,
-  Star,
-  Sparkles,
-  Heart,
-  ArrowRight,
-  Eye,
-  MapPin,
-  Award,
-  Shield,
-  Compass,
-  CheckCircle,
-  XCircle,
-  DollarSign,
-  Car,
-  Utensils,
-  Bed,
-  Activity,
-  AlertTriangle,
-  Phone,
-  Mail,
-  Info,
-  Thermometer,
-  Wind,
-} from "lucide-react"
+import { TourCard } from "@/components/tour-card"
+import { MapPin, Star, ArrowRight, Mountain, Sparkles, Shield, CheckCircle, Camera, Compass, Users, Award } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: "Mountain Climbing Tours - Ngonzi Tours",
+  title: "Mountain Climbing Tours - Ngonzi Tours | Kilimanjaro & East Africa Peaks",
   description:
-    "Conquer Africa's highest peaks including Mount Kilimanjaro and Mount Kenya with expert guides and premium support.",
+    "Conquer Africa's highest peaks with our expert mountain climbing tours. Scale Mount Kilimanjaro, Mount Meru, and other spectacular mountains in East Africa.",
+  openGraph: {
+    title: "Mountain Climbing Tours - Kilimanjaro & East Africa Peaks",
+    description: "Challenge yourself with mountain climbing adventures on Africa's highest peaks.",
+  },
 }
 
 export default function MountainClimbingPage() {
-  const mountainTours = getToursByCategory("Mountain")
+  const climbingTours = getToursByCategory("Adventure")
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-red-50">
-      {/* Ultra-Premium Hero Section */}
-      <section className="relative h-screen bg-gradient-to-br from-orange-900 via-red-800 to-amber-700 text-white overflow-hidden">
-        <div className="absolute inset-0 bg-black/40" />
-        <div className="absolute inset-0 bg-[url('/placeholder.svg?height=1080&width=1920')] bg-cover bg-center opacity-30" />
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50">
+      {/* Hero Section */}
+      <section className="relative h-screen overflow-hidden">
+        <Image src="/images/ndege.jpeg" alt="Mountain Climbing" fill className="object-cover" priority />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/30" />
 
-        {/* Floating Animation Elements */}
-        <div className="absolute top-20 left-10 w-40 h-40 bg-orange-400/10 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-20 right-10 w-60 h-60 bg-red-400/10 rounded-full blur-3xl animate-pulse delay-1000" />
-        <div className="absolute top-1/2 left-1/3 w-32 h-32 bg-amber-400/10 rounded-full blur-2xl animate-pulse delay-500" />
+        <div className="absolute inset-0 flex items-center">
+          <div className="container mx-auto px-4">
+            <div className="max-w-5xl text-white">
+              <div className="inline-flex items-center gap-3 mb-8 bg-white/10 backdrop-blur-sm rounded-full px-6 py-3 border border-white/20">
+                <Mountain className="h-5 w-5 text-blue-400" />
+                <span className="font-semibold">Mountain Climbing Adventures</span>
+              </div>
 
-        <div className="container mx-auto px-4 relative z-10 h-full flex items-center">
-          <div className="max-w-6xl mx-auto text-center">
-            <div className="inline-flex items-center gap-3 bg-white/10 backdrop-blur-sm rounded-full px-8 py-4 mb-10 border border-white/20">
-              <Mountain className="h-6 w-6 text-orange-300" />
-              <span className="text-lg font-semibold">Mountain Adventures</span>
-              <Sparkles className="h-5 w-5 text-yellow-300" />
-            </div>
+              <h1 className="text-6xl md:text-8xl font-black mb-8 leading-none">
+                MOUNTAIN
+                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
+                  CLIMBING
+                </span>
+              </h1>
 
-            <h1 className="text-6xl md:text-9xl font-black mb-10 leading-none">
-              CLIMB
-              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-red-400 to-amber-400 animate-pulse">
-                PEAKS
-              </span>
-            </h1>
+              <p className="text-2xl md:text-3xl mb-12 opacity-90 max-w-4xl leading-relaxed font-light">
+                Conquer Africa's highest peaks and challenge yourself with our expert mountain climbing adventures.
+                Scale Mount Kilimanjaro, Mount Meru, and other spectacular mountains.
+              </p>
 
-            <p className="text-2xl md:text-3xl mb-16 opacity-95 max-w-5xl mx-auto leading-relaxed font-light">
-              Conquer Africa's most majestic peaks including Mount Kilimanjaro (5,895m), Mount Kenya (5,199m), and the
-              Rwenzori Mountains with certified guides and comprehensive support.
-            </p>
+              <div className="grid md:grid-cols-4 gap-6 mb-12">
+                {[
+                  { icon: Mountain, value: "5,895m", label: "Kilimanjaro Peak" },
+                  { icon: Compass, value: "Expert", label: "Mountain Guides" },
+                  { icon: Users, value: "Small", label: "Group Sizes" },
+                  { icon: Award, value: "High", label: "Success Rate" },
+                ].map((stat, index) => (
+                  <div
+                    key={index}
+                    className="text-center bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20"
+                  >
+                    <stat.icon className="h-8 w-8 mx-auto mb-3 text-blue-400" />
+                    <div className="text-3xl font-bold mb-2">{stat.value}</div>
+                    <div className="text-sm opacity-80">{stat.label}</div>
+                  </div>
+                ))}
+              </div>
 
-            <div className="flex flex-col sm:flex-row gap-8 justify-center mb-20">
-              <Button
-                size="lg"
-                className="bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white px-12 py-6 text-xl font-bold shadow-2xl hover:shadow-orange-500/25 transition-all duration-300 transform hover:scale-105"
-              >
-                <Mountain className="h-7 w-7 mr-4" />
-                Start Climbing
-              </Button>
-              <Button
-                size="lg"
-                variant="outline"
-                className="border-3 border-white text-white hover:bg-white hover:text-orange-900 bg-transparent px-12 py-6 text-xl font-bold backdrop-blur-sm transition-all duration-300 transform hover:scale-105"
-              >
-                <Phone className="h-7 w-7 mr-4" />
-                Get Climbing Quote
-              </Button>
-            </div>
-
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
-              {[
-                { value: "5,895m", label: "Kilimanjaro Peak", icon: Mountain },
-                { value: "7", label: "Climbing Routes", icon: MapPin },
-                { value: "95%", label: "Success Rate", icon: Award },
-                { value: "4.9★", label: "Climber Rating", icon: Star },
-              ].map((stat, index) => (
-                <div
-                  key={index}
-                  className="text-center bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20"
+              <div className="flex flex-col sm:flex-row gap-6">
+                <Button
+                  size="lg"
+                  className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white px-12 py-4 text-xl font-bold shadow-2xl hover:shadow-blue-500/25 transition-all duration-300 transform hover:scale-105"
                 >
-                  <stat.icon className="h-8 w-8 text-orange-300 mx-auto mb-3" />
-                  <div className="text-3xl font-bold mb-2">{stat.value}</div>
-                  <div className="text-white/80 font-medium text-sm">{stat.label}</div>
-                </div>
-              ))}
+                  <Mountain className="h-6 w-6 mr-3" />
+                  Explore Climbing Tours
+                </Button>
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="border-2 border-white text-white hover:bg-white hover:text-gray-900 bg-transparent px-12 py-4 text-xl font-bold backdrop-blur-sm transition-all duration-300 transform hover:scale-105"
+                  asChild
+                >
+                  <Link href="/contact">
+                    <ArrowRight className="h-6 w-6 mr-3" />
+                    Plan Your Climb
+                  </Link>
+                </Button>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Comprehensive Climbing Information */}
-      <section className="py-32 bg-white">
+      {/* What's Included Section */}
+      <section className="py-24 bg-white relative">
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-50/50 to-purple-50/50" />
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="text-center mb-20">
+            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-100 to-purple-100 text-blue-700 rounded-full px-6 py-3 mb-8 border border-blue-200">
+              <CheckCircle className="h-5 w-5 text-blue-600" />
+              <span className="font-bold">Climbing Inclusions</span>
+            </div>
+            <h2 className="text-5xl md:text-6xl font-black text-gray-900 mb-8 leading-tight">
+              What's
+              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
+                Included
+              </span>
+            </h2>
+            <p className="text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
+              Our mountain climbing packages include everything you need for a safe and successful summit attempt.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
+            {[
+              {
+                icon: Users,
+                title: "Professional Guides",
+                description: "Certified mountain guides with extensive experience and safety training",
+                color: "blue",
+              },
+              {
+                icon: Shield,
+                title: "Safety Equipment",
+                description: "All necessary safety gear including first aid kits and emergency equipment",
+                color: "purple",
+              },
+              {
+                icon: Camera,
+                title: "Camping Equipment",
+                description: "High-quality tents, sleeping bags, and camping gear for mountain conditions",
+                color: "indigo",
+              },
+              {
+                icon: Award,
+                title: "Porters & Cooks",
+                description: "Experienced porters and cooks to support your climbing expedition",
+                color: "violet",
+              },
+            ].map((feature, index) => (
+              <Card
+                key={index}
+                className="text-center hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 border-0 bg-white"
+              >
+                <CardContent className="p-8">
+                  <div
+                    className={`bg-${feature.color}-100 rounded-2xl w-20 h-20 flex items-center justify-center mx-auto mb-6 shadow-lg`}
+                  >
+                    <feature.icon className={`h-10 w-10 text-${feature.color}-600`} />
+                  </div>
+                  <h3 className="text-xl font-bold mb-4 text-gray-900">{feature.title}</h3>
+                  <p className="text-gray-600 leading-relaxed">{feature.description}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Climbing Tours Section */}
+      <section className="py-24 bg-gradient-to-br from-gray-50 to-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-20">
-            <Badge className="bg-orange-100 text-orange-800 text-lg px-6 py-3 mb-8">
-              <Info className="h-5 w-5 mr-2" />
-              Complete Climbing Information
-            </Badge>
-            <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-6">Everything You Need to Know</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Comprehensive details about our mountain climbing expeditions to ensure your success and safety
+            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-100 to-indigo-100 text-purple-700 rounded-full px-6 py-3 mb-8 border border-purple-200">
+              <Compass className="h-5 w-5 text-purple-600" />
+              <span className="font-bold">Available Climbs</span>
+            </div>
+            <h2 className="text-5xl md:text-6xl font-black text-gray-900 mb-8 leading-tight">
+              Climbing
+              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-indigo-600">
+                Adventures
+              </span>
+            </h2>
+            <p className="text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
+              Choose from our expertly guided mountain climbing expeditions to Africa's most spectacular peaks.
             </p>
           </div>
 
-          <div className="grid lg:grid-cols-3 gap-12 max-w-7xl mx-auto">
-            {/* What's Included */}
-            <Card className="border-0 shadow-xl bg-gradient-to-br from-orange-50 to-white">
-              <CardHeader className="pb-6">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="bg-orange-500 rounded-full p-3">
-                    <CheckCircle className="h-6 w-6 text-white" />
-                  </div>
-                  <CardTitle className="text-2xl font-bold text-orange-900">What's Included</CardTitle>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-4">
-                  {[
-                    { icon: Users, text: "Certified Mountain Guide (English Speaking)" },
-                    { icon: Shield, text: "All Climbing Equipment & Safety Gear" },
-                    { icon: Bed, text: "Mountain Huts/Camping Accommodation" },
-                    { icon: Utensils, text: "All Meals During Climb (3 meals/day)" },
-                    { icon: Car, text: "Airport Transfers & Park Transport" },
-                    { icon: Activity, text: "Park Entry & Conservation Fees" },
-                    { icon: Mountain, text: "Summit Certificate" },
-                    { icon: Phone, text: "Emergency Communication Equipment" },
-                  ].map((item, index) => (
-                    <li key={index} className="flex items-center gap-3">
-                      <item.icon className="h-5 w-5 text-orange-600 flex-shrink-0" />
-                      <span className="text-gray-700 font-medium">{item.text}</span>
-                    </li>
-                  ))}
-                </ul>
-              </CardContent>
-            </Card>
-
-            {/* What's Not Included */}
-            <Card className="border-0 shadow-xl bg-gradient-to-br from-red-50 to-white">
-              <CardHeader className="pb-6">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="bg-red-500 rounded-full p-3">
-                    <XCircle className="h-6 w-6 text-white" />
-                  </div>
-                  <CardTitle className="text-2xl font-bold text-red-900">What's Not Included</CardTitle>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-4">
-                  {[
-                    "International Flights to/from Tanzania",
-                    "Visa Fees ($50 on arrival)",
-                    "Personal Climbing Gear (available for rent)",
-                    "Travel Insurance (mandatory)",
-                    "Tips for Guides & Porters ($200-300 total)",
-                    "Personal Expenses & Souvenirs",
-                    "Accommodation Before/After Climb",
-                    "Alcoholic Beverages",
-                  ].map((item, index) => (
-                    <li key={index} className="flex items-center gap-3">
-                      <XCircle className="h-5 w-5 text-red-500 flex-shrink-0" />
-                      <span className="text-gray-700">{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </CardContent>
-            </Card>
-
-            {/* Critical Climbing Information */}
-            <Card className="border-0 shadow-xl bg-gradient-to-br from-amber-50 to-white">
-              <CardHeader className="pb-6">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="bg-amber-500 rounded-full p-3">
-                    <AlertTriangle className="h-6 w-6 text-white" />
-                  </div>
-                  <CardTitle className="text-2xl font-bold text-amber-900">Critical Information</CardTitle>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-6">
-                  <div>
-                    <h4 className="font-bold text-gray-900 mb-2 flex items-center gap-2">
-                      <Thermometer className="h-4 w-4 text-amber-600" />
-                      Best Climbing Seasons
-                    </h4>
-                    <p className="text-gray-700">Jan-Mar & Jun-Oct (Dry seasons with clear views)</p>
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-gray-900 mb-2 flex items-center gap-2">
-                      <Activity className="h-4 w-4 text-amber-600" />
-                      Fitness Requirements
-                    </h4>
-                    <p className="text-gray-700">Good physical condition required. 3-month training recommended</p>
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-gray-900 mb-2 flex items-center gap-2">
-                      <Users className="h-4 w-4 text-amber-600" />
-                      Age Requirements
-                    </h4>
-                    <p className="text-gray-700">Minimum age 12 years. Maximum recommended age 65 years</p>
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-gray-900 mb-2 flex items-center gap-2">
-                      <Wind className="h-4 w-4 text-amber-600" />
-                      Altitude Sickness
-                    </h4>
-                    <p className="text-gray-700">
-                      Proper acclimatization schedule included. Medical clearance required
-                    </p>
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-gray-900 mb-2 flex items-center gap-2">
-                      <DollarSign className="h-4 w-4 text-amber-600" />
-                      Payment Terms
-                    </h4>
-                    <p className="text-gray-700">50% deposit required. Balance due 45 days before climb</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+            {climbingTours.map((tour) => (
+              <TourCard key={tour.id} tour={tour} />
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Mountain Tours Collection with Detailed Information */}
-      <section className="py-32 bg-gradient-to-br from-white to-orange-50">
+      {/* Climbing Routes Section */}
+      <section className="py-24 bg-gradient-to-br from-indigo-50 to-purple-50">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-24">
-            <div className="inline-flex items-center gap-3 bg-gradient-to-r from-orange-100 to-red-100 text-orange-700 rounded-full px-8 py-4 mb-8 border border-orange-200">
-              <Award className="h-6 w-6 text-orange-600" />
-              <span className="font-bold text-lg">Premium Climbing Expeditions</span>
-            </div>
-            <h2 className="text-5xl md:text-6xl font-black text-gray-900 mb-8">Mountain Climbing Tours</h2>
-            <p className="text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
-              Choose your mountain adventure with complete route details, pricing, and success rates
+          <div className="text-center mb-20">
+            <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-8 leading-tight">
+              Popular
+              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600">
+                Routes
+              </span>
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+              Discover the different routes available for your mountain climbing adventure.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10 max-w-8xl mx-auto">
-            {mountainTours.map((tour, index) => (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            {[
+              {
+                title: "Machame Route",
+                description: "The most scenic route to Kilimanjaro's summit, known as the 'Whiskey Route'",
+                duration: "6-7 days",
+                difficulty: "Moderate-Challenging",
+                success: "85-90%",
+              },
+              {
+                title: "Lemosho Route",
+                description: "Less crowded route with excellent acclimatization and stunning views",
+                duration: "7-8 days",
+                difficulty: "Moderate",
+                success: "90-95%",
+              },
+              {
+                title: "Rongai Route",
+                description: "The only route approaching from the north, good during rainy season",
+                duration: "6-7 days",
+                difficulty: "Moderate",
+                success: "80-85%",
+              },
+              {
+                title: "Marangu Route",
+                description: "The 'Coca-Cola Route' with hut accommodation instead of camping",
+                duration: "5-6 days",
+                difficulty: "Moderate",
+                success: "65-70%",
+              },
+              {
+                title: "Mount Meru",
+                description: "Tanzania's second highest peak, excellent Kilimanjaro preparation",
+                duration: "3-4 days",
+                difficulty: "Moderate",
+                success: "85-90%",
+              },
+              {
+                title: "Mount Kenya",
+                description: "Technical climbing on Africa's second highest mountain",
+                duration: "4-6 days",
+                difficulty: "Challenging",
+                success: "70-80%",
+              },
+            ].map((route, index) => (
               <Card
-                key={tour.id}
-                className="overflow-hidden group hover:shadow-2xl transition-all duration-500 border-0 shadow-xl bg-white transform hover:-translate-y-3"
+                key={index}
+                className="hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 border-0 bg-white"
               >
-                <div className="relative h-80">
-                  <Image
-                    src={tour.images[0] || "/placeholder.svg?height=320&width=480&query=mountain climbing kilimanjaro"}
-                    alt={tour.title}
-                    fill
-                    className="object-cover group-hover:scale-110 transition-transform duration-700"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-
-                  <div className="absolute top-6 left-6 flex gap-3">
-                    <Badge className="bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white px-4 py-2 text-sm font-bold">
-                      {tour.category}
-                    </Badge>
-                    <Badge className="bg-gradient-to-r from-red-600 to-orange-600 text-white px-4 py-2 font-bold">
-                      From ${tour.price}
-                    </Badge>
-                  </div>
-
-                  <div className="absolute top-6 right-6 flex gap-2">
-                    <Button
-                      size="sm"
-                      variant="ghost"
-                      className="text-white hover:bg-white/20 rounded-full p-3 backdrop-blur-sm"
-                    >
-                      <Heart className="h-5 w-5" />
-                    </Button>
-                    <Badge className="bg-black/70 text-white px-3 py-2 font-bold backdrop-blur-sm">
-                      {index === 0 ? "Challenging" : index === 1 ? "Moderate" : "Difficult"}
-                    </Badge>
-                  </div>
-
-                  <div className="absolute bottom-6 left-6 right-6">
-                    <h3 className="text-2xl font-bold text-white mb-2 line-clamp-2">{tour.title}</h3>
-                    <div className="flex items-center gap-2">
-                      {[...Array(5)].map((_, i) => (
-                        <Star key={i} className="h-5 w-5 fill-yellow-400 text-yellow-400" />
-                      ))}
-                      <span className="ml-3 text-white/90 font-semibold">{tour.rating} (156 climbers)</span>
+                <CardContent className="p-8">
+                  <h3 className="text-xl font-bold mb-4 text-gray-900">{route.title}</h3>
+                  <p className="text-gray-600 mb-6 leading-relaxed">{route.description}</p>
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm font-semibold text-gray-700">Duration:</span>
+                      <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">
+                        {route.duration}
+                      </Badge>
                     </div>
-                  </div>
-                </div>
-
-                <CardHeader className="pb-4">
-                  <CardDescription className="text-gray-600 text-base line-clamp-3 leading-relaxed">
-                    {tour.description}
-                  </CardDescription>
-                </CardHeader>
-
-                <CardContent className="pt-0">
-                  {/* Detailed Climbing Information */}
-                  <div className="grid grid-cols-2 gap-4 text-sm mb-6">
-                    <div className="flex items-center gap-2">
-                      <div className="bg-orange-100 rounded-full p-2">
-                        <Clock className="h-4 w-4 text-orange-600" />
-                      </div>
-                      <div>
-                        <div className="font-semibold text-gray-900">{tour.duration}</div>
-                        <div className="text-gray-500 text-xs">Duration</div>
-                      </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm font-semibold text-gray-700">Difficulty:</span>
+                      <Badge variant="outline" className="bg-purple-50 text-purple-700 border-purple-200">
+                        {route.difficulty}
+                      </Badge>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <div className="bg-red-100 rounded-full p-2">
-                        <Mountain className="h-4 w-4 text-red-600" />
-                      </div>
-                      <div>
-                        <div className="font-semibold text-gray-900">5,895m</div>
-                        <div className="text-gray-500 text-xs">Peak Height</div>
-                      </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm font-semibold text-gray-700">Success Rate:</span>
+                      <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
+                        {route.success}
+                      </Badge>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <div className="bg-amber-100 rounded-full p-2">
-                        <Users className="h-4 w-4 text-amber-600" />
-                      </div>
-                      <div>
-                        <div className="font-semibold text-gray-900">{tour.groupSize}</div>
-                        <div className="text-gray-500 text-xs">Group Size</div>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <div className="bg-green-100 rounded-full p-2">
-                        <Award className="h-4 w-4 text-green-600" />
-                      </div>
-                      <div>
-                        <div className="font-semibold text-gray-900">95%</div>
-                        <div className="text-gray-500 text-xs">Success Rate</div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Route & Pricing Information */}
-                  <div className="bg-gradient-to-r from-orange-50 to-red-50 rounded-xl p-4 mb-6">
-                    <div className="flex items-center justify-between mb-3">
-                      <div className="flex items-center gap-2">
-                        <Compass className="h-5 w-5 text-orange-600" />
-                        <span className="font-bold text-lg text-orange-900">
-                          {index === 0 ? "Machame Route" : index === 1 ? "Marangu Route" : "Lemosho Route"}
-                        </span>
-                      </div>
-                      <Badge className="bg-orange-600 text-white">Per Person</Badge>
-                    </div>
-                    <div className="text-sm text-gray-600 space-y-1">
-                      <div className="flex justify-between">
-                        <span>• All meals & accommodation</span>
-                        <span className="font-semibold">Included</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>• Professional guide & porters</span>
-                        <span className="font-semibold">Included</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>• Equipment rental</span>
-                        <span className="font-semibold">+$150</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>• Single tent supplement</span>
-                        <span className="font-semibold">+$200</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Climbing Highlights */}
-                  <div className="mb-6">
-                    <h4 className="font-bold text-lg mb-3 text-gray-900">Climbing Highlights</h4>
-                    <ul className="space-y-2">
-                      {[
-                        "Certified mountain guides with 15+ years experience",
-                        "Comprehensive safety equipment included",
-                        "Proper acclimatization schedule",
-                        "Summit certificate upon completion",
-                        "Emergency evacuation insurance",
-                      ].map((highlight, idx) => (
-                        <li key={idx} className="flex items-center gap-2 text-sm text-gray-600">
-                          <CheckCircle className="h-4 w-4 text-orange-500 flex-shrink-0" />
-                          {highlight}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  {/* Action Buttons */}
-                  <div className="flex gap-3">
-                    <Button
-                      className="flex-1 bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-700 hover:to-red-700 text-white py-3 font-bold shadow-lg hover:shadow-orange-500/25 transition-all duration-300"
-                      asChild
-                    >
-                      <Link href={`/tours/${tour.slug}`}>
-                        <Eye className="h-5 w-5 mr-2" />
-                        Route Details
-                        <ArrowRight className="h-5 w-5 ml-2" />
-                      </Link>
-                    </Button>
-                    <Button
-                      variant="outline"
-                      className="px-6 py-3 font-bold border-2 border-orange-200 text-orange-600 hover:bg-orange-50 transition-all duration-300 bg-transparent"
-                    >
-                      <Phone className="h-5 w-5 mr-2" />
-                      Quote
-                    </Button>
                   </div>
                 </CardContent>
               </Card>
@@ -432,125 +278,120 @@ export default function MountainClimbingPage() {
         </div>
       </section>
 
-      {/* Why Choose Mountain Climbing */}
-      <section className="py-32 bg-gradient-to-br from-orange-900 to-red-800 text-white relative overflow-hidden">
-        <div className="absolute inset-0 bg-black/20" />
-        <div className="absolute top-0 left-0 w-full h-full bg-[url('/placeholder.svg?height=800&width=1200')] bg-cover bg-center opacity-10" />
-
-        <div className="container mx-auto px-4 relative z-10">
+      {/* Preparation Tips Section */}
+      <section className="py-24 bg-white">
+        <div className="container mx-auto px-4">
           <div className="text-center mb-20">
-            <h2 className="text-5xl md:text-6xl font-black mb-8">Why Climb With Us?</h2>
-            <p className="text-2xl opacity-90 max-w-4xl mx-auto leading-relaxed">
-              Experience the ultimate mountain adventure with unmatched expertise and safety record
+            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-green-100 to-emerald-100 text-green-700 rounded-full px-6 py-3 mb-8 border border-green-200">
+              <Shield className="h-5 w-5 text-green-600" />
+              <span className="font-bold">Preparation Guide</span>
+            </div>
+            <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-8 leading-tight">
+              Preparation
+              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-emerald-600">
+                Tips
+              </span>
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+              Essential preparation tips to ensure your mountain climbing adventure is safe and successful.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
-            {[
-              {
-                icon: Mountain,
-                title: "Expert Mountain Guides",
-                description:
-                  "Certified guides with 15+ years experience on Kilimanjaro and technical mountain rescue training",
-                guarantee: "UIAGM certified guides",
-              },
-              {
-                icon: Shield,
-                title: "95% Success Rate",
-                description:
-                  "Industry-leading summit success rate through proper acclimatization and expert route planning",
-                guarantee: "Highest success rate in Tanzania",
-              },
-              {
-                icon: Compass,
-                title: "Multiple Routes",
-                description:
-                  "Choose from 7 different routes including Machame, Marangu, Lemosho, and technical climbing routes",
-                guarantee: "All routes available year-round",
-              },
-              {
-                icon: Award,
-                title: "Safety First",
-                description:
-                  "Comprehensive safety protocols, emergency equipment, and evacuation insurance for all climbers",
-                guarantee: "Zero fatalities in 25 years",
-              },
-            ].map((feature, index) => (
-              <div
-                key={index}
-                className="text-center bg-white/10 backdrop-blur-sm rounded-3xl p-8 border border-white/20 hover:bg-white/15 transition-all duration-300"
-              >
-                <div className="bg-gradient-to-br from-orange-400 to-red-400 rounded-2xl w-20 h-20 flex items-center justify-center mx-auto mb-6 shadow-2xl">
-                  <feature.icon className="h-10 w-10 text-white" />
+          <div className="grid md:grid-cols-2 gap-12 max-w-6xl mx-auto">
+            <div className="space-y-6">
+              <h3 className="text-2xl font-bold text-gray-900 mb-6">Physical Preparation</h3>
+              {[
+                "Start training 3-4 months before your climb",
+                "Focus on cardiovascular fitness and endurance",
+                "Include hiking with weighted backpack",
+                "Build leg strength with squats and lunges",
+                "Practice walking on uneven terrain",
+                "Gradually increase training intensity",
+              ].map((tip, index) => (
+                <div key={index} className="flex items-start gap-4">
+                  <CheckCircle className="h-6 w-6 text-green-600 mt-0.5 flex-shrink-0" />
+                  <span className="text-gray-700 leading-relaxed">{tip}</span>
                 </div>
-                <h3 className="text-2xl font-bold mb-4">{feature.title}</h3>
-                <p className="text-white/80 leading-relaxed mb-4">{feature.description}</p>
-                <Badge className="bg-orange-500/20 text-orange-200 border border-orange-400/30">
-                  {feature.guarantee}
-                </Badge>
-              </div>
-            ))}
+              ))}
+            </div>
+
+            <div className="space-y-6">
+              <h3 className="text-2xl font-bold text-gray-900 mb-6">Gear & Equipment</h3>
+              {[
+                "Invest in quality, broken-in hiking boots",
+                "Layer system for varying temperatures",
+                "Waterproof and windproof outer shell",
+                "Warm sleeping bag rated for low temperatures",
+                "Trekking poles for stability and support",
+                "Headlamp with extra batteries",
+              ].map((tip, index) => (
+                <div key={index} className="flex items-start gap-4">
+                  <CheckCircle className="h-6 w-6 text-blue-600 mt-0.5 flex-shrink-0" />
+                  <span className="text-gray-700 leading-relaxed">{tip}</span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Booking Information & Contact */}
-      <section className="py-32 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-8">Ready to Conquer Kilimanjaro?</h2>
-            <p className="text-xl text-gray-600 mb-12">
-              Contact our mountain climbing experts for route recommendations and detailed preparation guides
-            </p>
-
-            <div className="grid md:grid-cols-2 gap-8 mb-12">
-              <Card className="border-0 shadow-xl bg-gradient-to-br from-orange-50 to-white p-8">
-                <div className="text-center">
-                  <Phone className="h-12 w-12 text-orange-600 mx-auto mb-4" />
-                  <h3 className="text-2xl font-bold text-gray-900 mb-4">Call Our Climbing Experts</h3>
-                  <p className="text-gray-600 mb-6">Speak with certified mountain guides</p>
-                  <div className="space-y-2">
-                    <div className="text-2xl font-bold text-orange-600">+255 123 456 789</div>
-                    <div className="text-gray-500">Available 6 AM - 10 PM EAT</div>
-                  </div>
-                </div>
-              </Card>
-
-              <Card className="border-0 shadow-xl bg-gradient-to-br from-red-50 to-white p-8">
-                <div className="text-center">
-                  <Mail className="h-12 w-12 text-red-600 mx-auto mb-4" />
-                  <h3 className="text-2xl font-bold text-gray-900 mb-4">Get Climbing Guide</h3>
-                  <p className="text-gray-600 mb-6">Receive detailed preparation & packing lists</p>
-                  <div className="space-y-2">
-                    <div className="text-xl font-bold text-red-600">climbing@ngonzitours.com</div>
-                    <div className="text-gray-500">Free preparation guide included</div>
-                  </div>
-                </div>
-              </Card>
+      {/* CTA Section */}
+      <section className="py-24 bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 text-white relative overflow-hidden">
+        <div className="absolute inset-0 bg-black/20" />
+        <div className="container mx-auto px-4 text-center relative z-10">
+          <div className="max-w-5xl mx-auto">
+            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-6 py-3 mb-8 border border-white/20">
+              <Sparkles className="h-5 w-5 text-yellow-300" />
+              <span className="font-bold">Ready to Climb?</span>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-6 justify-center">
+            <h2 className="text-5xl md:text-6xl font-black mb-8 leading-tight">
+              Ready to Conquer
+              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-white">
+                Africa's Peaks?
+              </span>
+            </h2>
+
+            <p className="text-2xl mb-12 opacity-90 leading-relaxed max-w-4xl mx-auto">
+              Challenge yourself with the ultimate mountain climbing adventure. Our expert guides will help you safely
+              reach the summit while creating memories that will last a lifetime.
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-6 justify-center mb-16">
               <Button
                 size="lg"
-                className="bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-700 hover:to-red-700 text-white px-12 py-6 text-xl font-bold shadow-2xl hover:shadow-orange-500/25 transition-all duration-300 transform hover:scale-105"
+                className="bg-white text-blue-600 hover:bg-gray-100 px-12 py-4 text-xl font-bold shadow-2xl hover:shadow-white/25 transition-all duration-300 transform hover:scale-105"
                 asChild
               >
                 <Link href="/contact">
-                  <Mountain className="h-7 w-7 mr-4" />
-                  Book Your Climb
+                  <ArrowRight className="h-6 w-6 mr-3" />
+                  Plan Your Climb
                 </Link>
               </Button>
               <Button
                 size="lg"
                 variant="outline"
-                className="border-3 border-orange-600 text-orange-600 hover:bg-orange-600 hover:text-white bg-transparent px-12 py-6 text-xl font-bold transition-all duration-300 transform hover:scale-105"
+                className="border-2 border-white text-white hover:bg-white hover:text-blue-600 bg-transparent px-12 py-4 text-xl font-bold backdrop-blur-sm transition-all duration-300 transform hover:scale-105"
                 asChild
               >
                 <Link href="/tours">
-                  <Compass className="h-7 w-7 mr-4" />
-                  Compare Routes
+                  <Mountain className="h-6 w-6 mr-3" />
+                  View All Tours
                 </Link>
               </Button>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+              {[
+                { icon: MapPin, text: "Kilimanjaro • Meru • Kenya" },
+                { icon: Star, text: "Expert Mountain Guides" },
+                { icon: Users, text: "Small Group Sizes" },
+              ].map((item, index) => (
+                <div key={index} className="flex items-center justify-center gap-3 text-lg">
+                  <item.icon className="h-6 w-6 text-yellow-300" />
+                  <span className="font-semibold">{item.text}</span>
+                </div>
+              ))}
             </div>
           </div>
         </div>

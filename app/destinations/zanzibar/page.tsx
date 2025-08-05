@@ -4,6 +4,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import { getDestinationBySlug, getToursByCategory } from "@/lib/data"
 import {
   Calendar,
   Users,
@@ -33,45 +34,155 @@ export const metadata: Metadata = {
 
 const zanzibarTours = [
   {
-    slug: "zanzibar-beach-escape",
-    name: "Zanzibar Beach Escape",
+    slug: "zanzibar-beach-culture",
+    name: "Zanzibar Beach & Culture Tour",
     description:
-      "Relax on the pristine white sands of Zanzibar, explore historic Stone Town, and enjoy water activities in the Indian Ocean.",
+      "Experience the best of Zanzibar with pristine beaches, Stone Town history, spice tours, and cultural experiences. Perfect tropical getaway.",
     image: "/images/mnemba.jpg",
     duration: "5 Days / 4 Nights",
     groupSize: "Any size",
-    price: "From $800",
-    rating: 4.8,
+    price: "From $1200",
+    rating: 4.6,
+    reviews: 234,
+    category: "Beach",
+    highlights: ["Stone Town UNESCO site", "Pristine white beaches", "Spice plantation tours", "Jozani Forest monkeys"],
+  },
+  {
+    slug: "stone-town-heritage-tour",
+    name: "Stone Town Heritage Tour",
+    description:
+      "Explore the UNESCO World Heritage Site of Stone Town with its rich history, narrow alleys, and cultural fusion.",
+    image: "/images/stone-town.jpg",
+    duration: "2 Days / 1 Night",
+    groupSize: "2-15 people",
+    price: "From $245",
+    rating: 4.5,
+    reviews: 189,
+    category: "Cultural",
+    highlights: ["UNESCO World Heritage Site", "House of Wonders", "Freddie Mercury House", "Spice markets"],
+  },
+  {
+    slug: "prison-island-tour",
+    name: "Prison Island Tour & Snorkeling",
+    description: "Visit historic Prison Island to see giant tortoises and enjoy snorkeling in crystal-clear waters.",
+    image: "/images/mnemba.jpg",
+    duration: "3 Days / 2 Nights",
+    groupSize: "2-12 people",
+    price: "From $443",
+    rating: 4.4,
     reviews: 156,
     category: "Beach",
-    highlights: ["Pristine Beaches", "Stone Town Tour", "Spice Plantation", "Dhow Cruise"],
+    highlights: ["Giant Aldabra tortoises", "Historic prison ruins", "Snorkeling coral reefs", "Pristine beaches"],
   },
   {
-    slug: "zanzibar-stone-town-explorer",
-    name: "Zanzibar & Stone Town Explorer",
+    slug: "jozani-forest-tour",
+    name: "Jozani Forest & Red Colobus Tour",
     description:
-      "A deep dive into the history and culture of Stone Town combined with relaxation on the island's beautiful beaches.",
-    image: "/images/stone-town.jpg",
+      "Explore Zanzibar's indigenous forest and encounter the rare red colobus monkeys found only in Zanzibar.",
+    image: "/images/mnemba.jpg",
     duration: "4 Days / 3 Nights",
-    groupSize: "Any size",
-    price: "From $600",
-    rating: 4.7,
-    reviews: 89,
+    groupSize: "2-10 people",
+    price: "From $644",
+    rating: 4.6,
+    reviews: 134,
     category: "Cultural",
-    highlights: ["UNESCO Heritage Site", "Historical Tours", "Local Markets", "Cultural Immersion"],
+    highlights: ["Red colobus monkeys", "Indigenous forest ecosystem", "Mangrove boardwalk", "Conservation education"],
   },
   {
-    slug: "spice-island-adventure",
-    name: "Spice Island Adventure",
-    description: "Experience a comprehensive tour of Zanzibar's spice plantations, Jozani Forest, and a dhow cruise.",
-    image: "/placeholder.svg?height=400&width=600",
-    duration: "3 Days / 2 Nights",
+    slug: "matemwe-beach-retreat",
+    name: "Matemwe Beach Retreat",
+    description:
+      "Experience pristine Matemwe Beach on Zanzibar's northeast coast with crystal-clear waters and coral reefs.",
+    image: "/images/mnemba.jpg",
+    duration: "5 Days / 4 Nights",
+    groupSize: "2-8 people",
+    price: "From $943",
+    rating: 4.7,
+    reviews: 167,
+    category: "Beach",
+    highlights: [
+      "Pristine Matemwe Beach",
+      "Coral reef snorkeling",
+      "Traditional fishing village",
+      "Sunset dhow cruises",
+    ],
+  },
+  {
+    slug: "mnemba-island-tour",
+    name: "Mnemba Island Diving Adventure",
+    description: "Explore pristine waters around Mnemba Island, one of East Africa's premier diving destinations.",
+    image: "/images/mnemba.jpg",
+    duration: "5 Days / 4 Nights",
+    groupSize: "2-8 people",
+    price: "From $943",
+    rating: 4.8,
+    reviews: 198,
+    category: "Beach",
+    highlights: ["Mnemba Atoll diving", "Dolphin encounters", "Whale shark sightings", "World-class snorkeling"],
+  },
+  {
+    slug: "kendwa-beach-tour",
+    name: "Kendwa Beach Paradise",
+    description: "Discover Kendwa Beach, famous for stunning sunsets, vibrant nightlife, and crystal-clear waters.",
+    image: "/images/mnemba.jpg",
+    duration: "6 Days / 5 Nights",
     groupSize: "2-10 people",
-    price: "From $450",
+    price: "From $1955",
     rating: 4.6,
-    reviews: 124,
+    reviews: 223,
+    category: "Beach",
+    highlights: ["Spectacular sunsets", "Crystal-clear waters", "Water sports activities", "Beach parties"],
+  },
+  {
+    slug: "nungwi-beach-tour",
+    name: "Nungwi Beach Cultural Experience",
+    description:
+      "Experience the vibrant fishing village of Nungwi with beautiful beaches and traditional dhow building.",
+    image: "/images/mnemba.jpg",
+    duration: "4 Days / 3 Nights",
+    groupSize: "2-12 people",
+    price: "From $756",
+    rating: 4.5,
+    reviews: 187,
+    category: "Cultural",
+    highlights: ["Traditional dhow building", "Pristine Nungwi Beach", "Fishing village culture", "Turtle sanctuary"],
+  },
+  {
+    slug: "kuza-cave-tour",
+    name: "Kuza Cave Adventure",
+    description: "Explore the mystical Kuza Cave with its crystal-clear natural pool and learn about local traditions.",
+    image: "/images/stone-town.jpg",
+    duration: "3 Days / 2 Nights",
+    groupSize: "2-8 people",
+    price: "From $567",
+    rating: 4.4,
+    reviews: 145,
     category: "Adventure",
-    highlights: ["Spice Tours", "Jozani Forest", "Red Colobus Monkeys", "Traditional Dhow"],
+    highlights: [
+      "Crystal-clear cave pool",
+      "Limestone cave exploration",
+      "Traditional cave stories",
+      "Conservation education",
+    ],
+  },
+  {
+    slug: "fukuchani-beach-tour",
+    name: "Fukuchani Beach Serenity",
+    description:
+      "Discover the tranquil beauty of Fukuchani Beach, a hidden gem perfect for relaxation and authentic experiences.",
+    image: "/images/mnemba.jpg",
+    duration: "4 Days / 3 Nights",
+    groupSize: "2-6 people",
+    price: "From $678",
+    rating: 4.3,
+    reviews: 98,
+    category: "Beach",
+    highlights: [
+      "Secluded pristine beach",
+      "Local community interaction",
+      "Traditional fishing",
+      "Peaceful environment",
+    ],
   },
 ]
 
@@ -109,7 +220,35 @@ const stats = [
   { icon: Star, value: "4.9", label: "Average Rating", color: "yellow" },
 ]
 
+const zanzibarDestinations = [
+  {
+    name: "Stone Town",
+    image: "/images/stone-town.jpg",
+    description: "UNESCO World Heritage Site with rich history",
+    highlights: ["Historic Architecture", "Cultural Sites", "Local Markets"],
+  },
+  {
+    name: "Mnemba Island",
+    image: "/images/mnemba.jpg",
+    description: "Private island paradise for snorkeling and diving",
+    highlights: ["Pristine Beaches", "Marine Life", "Water Sports"],
+  },
+  {
+    name: "Spice Plantations",
+    image: "/placeholder.svg?height=300&width=400",
+    description: "Aromatic tours through historic spice farms",
+    highlights: ["Spice Tours", "Local Culture", "Traditional Farming"],
+  },
+]
+
 export default function ZanzibarPage() {
+  const zanzibar = getDestinationBySlug("zanzibar")
+  const beachTours = getToursByCategory("Beach")
+
+  if (!zanzibar) {
+    return <div>Destination not found</div>
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-cyan-50">
       {/* Hero Section */}
@@ -386,26 +525,7 @@ export default function ZanzibarPage() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {[
-              {
-                name: "Stone Town",
-                image: "/images/stone-town.jpg",
-                description: "UNESCO World Heritage Site with rich history",
-                highlights: ["Historic Architecture", "Cultural Sites", "Local Markets"],
-              },
-              {
-                name: "Mnemba Island",
-                image: "/images/mnemba.jpg",
-                description: "Private island paradise for snorkeling and diving",
-                highlights: ["Pristine Beaches", "Marine Life", "Water Sports"],
-              },
-              {
-                name: "Spice Plantations",
-                image: "/placeholder.svg?height=300&width=400",
-                description: "Aromatic tours through historic spice farms",
-                highlights: ["Spice Tours", "Local Culture", "Traditional Farming"],
-              },
-            ].map((destination, index) => (
+            {zanzibarDestinations.map((destination, index) => (
               <Card
                 key={index}
                 className="overflow-hidden group hover:shadow-xl transition-all duration-500 bg-white transform hover:-translate-y-1"

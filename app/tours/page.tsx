@@ -4,16 +4,11 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import { getToursByCategory, tours } from "@/lib/data"
+import { DollarSign, Users } from "lucide-react"
 import {
   MapPin,
   Star,
-  Clock,
-  Users,
-  Camera,
-  Plane,
-  Globe,
-  Award,
-  Heart,
   ArrowRight,
   Compass,
   Mountain,
@@ -24,9 +19,8 @@ import {
   Sparkles,
   Shield,
   CheckCircle,
-  DollarSign,
 } from "lucide-react"
-import { tours, getToursByCategory } from "@/lib/data"
+import { TourCard } from "@/components/tour-card"
 
 export const metadata: Metadata = {
   title: "Tours - Ngonzi Tours | East Africa Safari & Adventure Tours",
@@ -43,6 +37,8 @@ export default function ToursPage() {
   const safariTours = getToursByCategory("Safari")
   const adventureTours = getToursByCategory("Adventure")
   const beachTours = getToursByCategory("Beach")
+  const culturalTours = getToursByCategory("Cultural")
+  const luxuryTours = getToursByCategory("Luxury")
 
   const tourCategories = [
     {
@@ -79,10 +75,10 @@ export default function ToursPage() {
       slug: "cultural-tours",
       name: "Cultural Tours",
       description: "Immerse in local traditions and heritage",
-      icon: Globe,
+      icon: Star,
       color: "purple",
       gradient: "from-purple-600 to-indigo-700",
-      tours: 2,
+      tours: culturalTours.length,
       image: "/placeholder.svg?height=400&width=600",
     },
     {
@@ -92,7 +88,7 @@ export default function ToursPage() {
       icon: Crown,
       color: "amber",
       gradient: "from-amber-600 to-yellow-700",
-      tours: 3,
+      tours: luxuryTours.length,
       image: "/placeholder.svg?height=400&width=600",
     },
   ]
@@ -149,7 +145,7 @@ export default function ToursPage() {
                   asChild
                 >
                   <Link href="/contact">
-                    <Plane className="h-6 w-6 mr-3" />
+                    <ArrowRight className="h-6 w-6 mr-3" />
                     Plan Custom Tour
                   </Link>
                 </Button>
@@ -157,10 +153,10 @@ export default function ToursPage() {
 
               <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
                 {[
-                  { icon: Award, value: "25+", label: "Years Experience" },
+                  { icon: Star, value: "25+", label: "Years Experience" },
                   { icon: Users, value: "5000+", label: "Happy Travelers" },
                   { icon: MapPin, value: "15+", label: "Destinations" },
-                  { icon: Star, value: "4.9", label: "Average Rating" },
+                  { icon: DollarSign, value: "4.9", label: "Average Rating" },
                 ].map((stat, index) => (
                   <div key={index} className="text-center group">
                     <div className="bg-white/10 backdrop-blur-sm rounded-2xl w-16 h-16 flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300 border border-white/20">
@@ -222,7 +218,7 @@ export default function ToursPage() {
                       variant="ghost"
                       className="text-white hover:bg-white/20 rounded-full p-2 backdrop-blur-sm border border-white/20"
                     >
-                      <Heart className="h-4 w-4" />
+                      <category.icon className="h-4 w-4" />
                     </Button>
                   </div>
 
@@ -284,125 +280,18 @@ export default function ToursPage() {
       {/* Featured Tours Section */}
       <section id="featured-tours" className="py-24 bg-gradient-to-br from-gray-50 to-white">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-20">
-            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-100 to-red-100 text-orange-700 rounded-full px-6 py-3 mb-8 border border-orange-200">
-              <Award className="h-5 w-5 text-orange-600" />
-              <span className="font-semibold">Most Popular</span>
-            </div>
-            <h2 className="text-5xl md:text-7xl font-black text-gray-900 mb-8 leading-tight">
-              Featured
-              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-red-600">
-                Tours
-              </span>
-            </h2>
-            <p className="text-xl md:text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
-              Our most sought-after adventures, carefully curated for unforgettable experiences across East Africa.
+          <div className="text-center mb-12">
+            <h1 className="text-4xl font-bold mb-4">Our Safari Tours</h1>
+            <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+              Discover the best safari experiences across East Africa. From the Great Migration to the Big Five, our
+              expertly guided tours offer unforgettable wildlife encounters.
             </p>
           </div>
 
-          <div className="grid lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-            {featuredTours.map((tour, index) => (
-              <Card
-                key={tour.id}
-                className="overflow-hidden group hover:shadow-2xl transition-all duration-500 border-0 bg-white transform hover:-translate-y-2"
-              >
-                <div className="relative h-72">
-                  <Image
-                    src={tour.images[0] || "/placeholder.svg"}
-                    alt={tour.title}
-                    fill
-                    className="object-cover group-hover:scale-110 transition-transform duration-700"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-
-                  <div className="absolute top-4 left-4 right-4 flex justify-between items-start">
-                    <div className="flex gap-2">
-                      <Badge className="bg-gradient-to-r from-emerald-600 to-emerald-700 text-white font-semibold">
-                        {tour.category}
-                      </Badge>
-                      <Badge className="bg-orange-500 text-white font-semibold">Featured</Badge>
-                    </div>
-                    <div className="flex gap-2">
-                      <Button
-                        size="sm"
-                        variant="ghost"
-                        className="text-white hover:bg-white/20 rounded-full p-2 backdrop-blur-sm border border-white/20"
-                      >
-                        <Heart className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  </div>
-
-                  <div className="absolute top-4 right-4 bg-white/95 backdrop-blur-sm rounded-xl px-4 py-2 shadow-lg">
-                    <div className="text-2xl font-bold text-emerald-600">${tour.price}</div>
-                    <div className="text-xs text-gray-600">per person</div>
-                  </div>
-
-                  <div className="absolute bottom-4 left-4 right-4">
-                    <div className="flex items-center gap-2 mb-3">
-                      {[...Array(5)].map((_, i) => (
-                        <Star key={i} className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                      ))}
-                      <span className="text-white/90 text-sm font-medium ml-2">{tour.rating}</span>
-                    </div>
-                    <h3 className="text-2xl font-bold text-white mb-2 line-clamp-2">{tour.title}</h3>
-                  </div>
-                </div>
-
-                <CardContent className="p-6">
-                  <p className="text-gray-600 mb-6 line-clamp-3 leading-relaxed">{tour.description}</p>
-
-                  <div className="grid grid-cols-3 gap-4 mb-6">
-                    <div className="text-center p-3 bg-gray-50 rounded-xl">
-                      <Clock className="h-5 w-5 text-blue-600 mx-auto mb-2" />
-                      <div className="text-xs text-gray-600 font-medium">{tour.duration}</div>
-                    </div>
-                    <div className="text-center p-3 bg-gray-50 rounded-xl">
-                      <Users className="h-5 w-5 text-emerald-600 mx-auto mb-2" />
-                      <div className="text-xs text-gray-600 font-medium">{tour.groupSize}</div>
-                    </div>
-                    <div className="text-center p-3 bg-gray-50 rounded-xl">
-                      <Award className="h-5 w-5 text-orange-600 mx-auto mb-2" />
-                      <div className="text-xs text-gray-600 font-medium">{tour.difficulty}</div>
-                    </div>
-                  </div>
-
-                  <div className="flex gap-3">
-                    <Button
-                      className="flex-1 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold shadow-lg hover:shadow-blue-500/25 transition-all duration-300"
-                      asChild
-                    >
-                      <Link href={`/tours/${tour.slug}`}>
-                        <Eye className="h-4 w-4 mr-2" />
-                        View Details
-                      </Link>
-                    </Button>
-                    <Button
-                      variant="outline"
-                      className="px-4 hover:bg-gray-50 transition-all duration-300 bg-transparent"
-                      asChild
-                    >
-                      <Link href="/booking">
-                        <DollarSign className="h-4 w-4" />
-                      </Link>
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {tours.map((tour) => (
+              <TourCard key={tour.id} tour={tour} />
             ))}
-          </div>
-
-          <div className="text-center mt-16">
-            <Button
-              size="lg"
-              className="bg-gradient-to-r from-emerald-600 to-blue-600 hover:from-emerald-700 hover:to-blue-700 text-white px-12 py-4 text-lg font-semibold shadow-xl hover:shadow-emerald-500/25 transition-all duration-300 transform hover:scale-105"
-              asChild
-            >
-              <Link href="#tour-categories">
-                <Compass className="h-6 w-6 mr-3" />
-                Explore All Tours
-              </Link>
-            </Button>
           </div>
         </div>
       </section>
@@ -419,7 +308,7 @@ export default function ToursPage() {
               <Shield className="h-5 w-5 text-emerald-400" />
               <span className="font-semibold">Why Choose Ngonzi Tours</span>
             </div>
-            <h2 className="text-5xl md:text-7xl font-black mb-8 leading-tight">
+            <h2 className="text-5xl md:text-6xl font-black mb-8 leading-tight">
               Premium
               <span className="block text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-blue-400">
                 Experience
@@ -439,13 +328,13 @@ export default function ToursPage() {
                   "Certified guides and comprehensive safety protocols ensure your peace of mind throughout your journey.",
               },
               {
-                icon: Award,
+                icon: Star,
                 title: "Expert Guides",
                 description:
                   "Local experts with deep knowledge of wildlife, culture, and landscapes provide authentic experiences.",
               },
               {
-                icon: Heart,
+                icon: Eye,
                 title: "Personalized Service",
                 description:
                   "Tailored itineraries and dedicated support create unforgettable, personalized adventures.",
@@ -502,7 +391,7 @@ export default function ToursPage() {
                 asChild
               >
                 <Link href="/contact">
-                  <Plane className="h-6 w-6 mr-3" />
+                  <ArrowRight className="h-6 w-6 mr-3" />
                   Plan Custom Tour
                 </Link>
               </Button>
@@ -513,7 +402,7 @@ export default function ToursPage() {
                 asChild
               >
                 <Link href="/destinations">
-                  <Camera className="h-6 w-6 mr-3" />
+                  <Users className="h-6 w-6 mr-3" />
                   Explore Destinations
                 </Link>
               </Button>

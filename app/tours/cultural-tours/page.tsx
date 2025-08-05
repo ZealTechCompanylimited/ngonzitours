@@ -1,433 +1,268 @@
 import type { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
 import { getToursByCategory } from "@/lib/data"
-import {
-  Users,
-  Clock,
-  Star,
-  Sparkles,
-  Camera,
-  Heart,
-  ArrowRight,
-  Eye,
-  Award,
-  Shield,
-  Globe,
-  CheckCircle,
-  XCircle,
-  Calendar,
-  DollarSign,
-  Car,
-  Utensils,
-  Bed,
-  Activity,
-  AlertTriangle,
-  Phone,
-  Mail,
-  Info,
-  BookOpen,
-} from "lucide-react"
+import { TourCard } from "@/components/tour-card"
+import { MapPin, Star, ArrowRight, Users, Sparkles, Shield, CheckCircle, Camera, Heart, Globe, Award } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: "Cultural Tours - Ngonzi Tours",
+  title: "Cultural Tours - Ngonzi Tours | Authentic East African Cultural Experiences",
   description:
-    "Immerse yourself in East Africa's rich cultural heritage with authentic experiences among local communities and traditions.",
+    "Immerse yourself in authentic East African cultures with our cultural tours. Meet local tribes, learn traditions, and experience the rich heritage of Tanzania, Kenya, and beyond.",
+  openGraph: {
+    title: "Cultural Tours - Authentic East African Cultural Experiences",
+    description: "Discover authentic cultures and traditions with our immersive cultural tours.",
+  },
 }
 
 export default function CulturalToursPage() {
   const culturalTours = getToursByCategory("Cultural")
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50">
-      {/* Ultra-Premium Hero Section */}
-      <section className="relative h-screen bg-gradient-to-br from-purple-900 via-pink-800 to-indigo-700 text-white overflow-hidden">
-        <div className="absolute inset-0 bg-black/40" />
-        <div className="absolute inset-0 bg-[url('/placeholder.svg?height=1080&width=1920')] bg-cover bg-center opacity-30" />
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-red-50">
+      {/* Hero Section */}
+      <section className="relative h-screen overflow-hidden">
+        <Image src="/images/picha-man.jpg" alt="Cultural Tours" fill className="object-cover" priority />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/30" />
 
-        {/* Floating Animation Elements */}
-        <div className="absolute top-20 left-10 w-40 h-40 bg-purple-400/10 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-20 right-10 w-60 h-60 bg-pink-400/10 rounded-full blur-3xl animate-pulse delay-1000" />
-        <div className="absolute top-1/2 left-1/3 w-32 h-32 bg-indigo-400/10 rounded-full blur-2xl animate-pulse delay-500" />
+        <div className="absolute inset-0 flex items-center">
+          <div className="container mx-auto px-4">
+            <div className="max-w-5xl text-white">
+              <div className="inline-flex items-center gap-3 mb-8 bg-white/10 backdrop-blur-sm rounded-full px-6 py-3 border border-white/20">
+                <Heart className="h-5 w-5 text-orange-400" />
+                <span className="font-semibold">Cultural Immersion Tours</span>
+              </div>
 
-        <div className="container mx-auto px-4 relative z-10 h-full flex items-center">
-          <div className="max-w-6xl mx-auto text-center">
-            <div className="inline-flex items-center gap-3 bg-white/10 backdrop-blur-sm rounded-full px-8 py-4 mb-10 border border-white/20">
-              <Globe className="h-6 w-6 text-purple-300" />
-              <span className="text-lg font-semibold">Cultural Heritage</span>
-              <Sparkles className="h-5 w-5 text-yellow-300" />
-            </div>
+              <h1 className="text-6xl md:text-8xl font-black mb-8 leading-none">
+                CULTURAL
+                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-red-400">
+                  HERITAGE
+                </span>
+              </h1>
 
-            <h1 className="text-6xl md:text-9xl font-black mb-10 leading-none">
-              CULTURE
-              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-indigo-400 animate-pulse">
-                IMMERSION
-              </span>
-            </h1>
+              <p className="text-2xl md:text-3xl mb-12 opacity-90 max-w-4xl leading-relaxed font-light">
+                Immerse yourself in authentic East African cultures. Meet local tribes, learn ancient traditions, and
+                experience the rich heritage that defines this remarkable region.
+              </p>
 
-            <p className="text-2xl md:text-3xl mb-16 opacity-95 max-w-5xl mx-auto leading-relaxed font-light">
-              Discover the rich cultural tapestry of East Africa through authentic experiences with Maasai, Hadzabe,
-              Chagga, and other indigenous communities. Experience traditional ceremonies, ancient customs, and living
-              heritage.
-            </p>
+              <div className="grid md:grid-cols-4 gap-6 mb-12">
+                {[
+                  { icon: Users, value: "40+", label: "Ethnic Groups" },
+                  { icon: Globe, value: "Ancient", label: "Traditions" },
+                  { icon: Heart, value: "Authentic", label: "Experiences" },
+                  { icon: Award, value: "Local", label: "Community Guides" },
+                ].map((stat, index) => (
+                  <div
+                    key={index}
+                    className="text-center bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20"
+                  >
+                    <stat.icon className="h-8 w-8 mx-auto mb-3 text-orange-400" />
+                    <div className="text-3xl font-bold mb-2">{stat.value}</div>
+                    <div className="text-sm opacity-80">{stat.label}</div>
+                  </div>
+                ))}
+              </div>
 
-            <div className="flex flex-col sm:flex-row gap-8 justify-center mb-20">
-              <Button
-                size="lg"
-                className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white px-12 py-6 text-xl font-bold shadow-2xl hover:shadow-purple-500/25 transition-all duration-300 transform hover:scale-105"
-              >
-                <Users className="h-7 w-7 mr-4" />
-                Explore Culture
-              </Button>
-              <Button
-                size="lg"
-                variant="outline"
-                className="border-3 border-white text-white hover:bg-white hover:text-purple-900 bg-transparent px-12 py-6 text-xl font-bold backdrop-blur-sm transition-all duration-300 transform hover:scale-105"
-              >
-                <Phone className="h-7 w-7 mr-4" />
-                Get Cultural Quote
-              </Button>
-            </div>
-
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
-              {[
-                { value: "50+", label: "Communities", icon: Users },
-                { value: "15", label: "Ethnic Groups", icon: Globe },
-                { value: "100+", label: "Traditions", icon: Award },
-                { value: "4.9★", label: "Cultural Rating", icon: Star },
-              ].map((stat, index) => (
-                <div
-                  key={index}
-                  className="text-center bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20"
+              <div className="flex flex-col sm:flex-row gap-6">
+                <Button
+                  size="lg"
+                  className="bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white px-12 py-4 text-xl font-bold shadow-2xl hover:shadow-orange-500/25 transition-all duration-300 transform hover:scale-105"
                 >
-                  <stat.icon className="h-8 w-8 text-purple-300 mx-auto mb-3" />
-                  <div className="text-3xl font-bold mb-2">{stat.value}</div>
-                  <div className="text-white/80 font-medium text-sm">{stat.label}</div>
-                </div>
-              ))}
+                  <Heart className="h-6 w-6 mr-3" />
+                  Explore Cultural Tours
+                </Button>
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="border-2 border-white text-white hover:bg-white hover:text-gray-900 bg-transparent px-12 py-4 text-xl font-bold backdrop-blur-sm transition-all duration-300 transform hover:scale-105"
+                  asChild
+                >
+                  <Link href="/contact">
+                    <ArrowRight className="h-6 w-6 mr-3" />
+                    Plan Cultural Journey
+                  </Link>
+                </Button>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Comprehensive Cultural Information */}
-      <section className="py-32 bg-white">
+      {/* What's Included Section */}
+      <section className="py-24 bg-white relative">
+        <div className="absolute inset-0 bg-gradient-to-r from-orange-50/50 to-red-50/50" />
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="text-center mb-20">
+            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-100 to-red-100 text-orange-700 rounded-full px-6 py-3 mb-8 border border-orange-200">
+              <CheckCircle className="h-5 w-5 text-orange-600" />
+              <span className="font-bold">Cultural Tour Inclusions</span>
+            </div>
+            <h2 className="text-5xl md:text-6xl font-black text-gray-900 mb-8 leading-tight">
+              What's
+              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-red-600">
+                Included
+              </span>
+            </h2>
+            <p className="text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
+              Our cultural tours include authentic experiences and meaningful interactions with local communities.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
+            {[
+              {
+                icon: Users,
+                title: "Local Community Guides",
+                description: "Authentic guides from local communities who share their culture firsthand",
+                color: "orange",
+              },
+              {
+                icon: Heart,
+                title: "Cultural Activities",
+                description: "Participate in traditional ceremonies, dances, and cultural practices",
+                color: "red",
+              },
+              {
+                icon: Camera,
+                title: "Village Visits",
+                description: "Visit authentic villages and meet local families in their homes",
+                color: "amber",
+              },
+              {
+                icon: Award,
+                title: "Community Support",
+                description: "Your visit directly supports local communities and cultural preservation",
+                color: "rose",
+              },
+            ].map((feature, index) => (
+              <Card
+                key={index}
+                className="text-center hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 border-0 bg-white"
+              >
+                <CardContent className="p-8">
+                  <div
+                    className={`bg-${feature.color}-100 rounded-2xl w-20 h-20 flex items-center justify-center mx-auto mb-6 shadow-lg`}
+                  >
+                    <feature.icon className={`h-10 w-10 text-${feature.color}-600`} />
+                  </div>
+                  <h3 className="text-xl font-bold mb-4 text-gray-900">{feature.title}</h3>
+                  <p className="text-gray-600 leading-relaxed">{feature.description}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Cultural Tours Section */}
+      <section className="py-24 bg-gradient-to-br from-gray-50 to-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-20">
-            <Badge className="bg-purple-100 text-purple-800 text-lg px-6 py-3 mb-8">
-              <Info className="h-5 w-5 mr-2" />
-              Complete Cultural Experience Information
-            </Badge>
-            <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-6">Everything You Need to Know</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Comprehensive details about our cultural immersion experiences to ensure respectful and meaningful
-              encounters
+            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-red-100 to-pink-100 text-red-700 rounded-full px-6 py-3 mb-8 border border-red-200">
+              <Globe className="h-5 w-5 text-red-600" />
+              <span className="font-bold">Available Tours</span>
+            </div>
+            <h2 className="text-5xl md:text-6xl font-black text-gray-900 mb-8 leading-tight">
+              Cultural
+              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-pink-600">
+                Experiences
+              </span>
+            </h2>
+            <p className="text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
+              Choose from our authentic cultural tours designed to provide meaningful connections with local communities.
             </p>
           </div>
 
-          <div className="grid lg:grid-cols-3 gap-12 max-w-7xl mx-auto">
-            {/* What's Included */}
-            <Card className="border-0 shadow-xl bg-gradient-to-br from-purple-50 to-white">
-              <CardHeader className="pb-6">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="bg-purple-500 rounded-full p-3">
-                    <CheckCircle className="h-6 w-6 text-white" />
-                  </div>
-                  <CardTitle className="text-2xl font-bold text-purple-900">What's Included</CardTitle>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-4">
-                  {[
-                    { icon: Users, text: "Expert Cultural Guide & Interpreter" },
-                    { icon: Car, text: "Transportation to Remote Communities" },
-                    { icon: Activity, text: "Traditional Ceremony Participation" },
-                    { icon: Utensils, text: "Authentic Local Meals with Families" },
-                    { icon: Bed, text: "Cultural Lodge/Homestay Accommodation" },
-                    { icon: Camera, text: "Photography Permissions & Guidance" },
-                    { icon: BookOpen, text: "Cultural Education & Storytelling" },
-                    { icon: Shield, text: "Community Development Contribution" },
-                  ].map((item, index) => (
-                    <li key={index} className="flex items-center gap-3">
-                      <item.icon className="h-5 w-5 text-purple-600 flex-shrink-0" />
-                      <span className="text-gray-700 font-medium">{item.text}</span>
-                    </li>
-                  ))}
-                </ul>
-              </CardContent>
-            </Card>
-
-            {/* What's Not Included */}
-            <Card className="border-0 shadow-xl bg-gradient-to-br from-red-50 to-white">
-              <CardHeader className="pb-6">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="bg-red-500 rounded-full p-3">
-                    <XCircle className="h-6 w-6 text-white" />
-                  </div>
-                  <CardTitle className="text-2xl font-bold text-red-900">What's Not Included</CardTitle>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-4">
-                  {[
-                    "International Flights to East Africa",
-                    "Visa Fees & Travel Documents",
-                    "Personal Travel Insurance",
-                    "Alcoholic Beverages",
-                    "Personal Shopping & Crafts",
-                    "Tips for Community Members",
-                    "Additional Cultural Workshops",
-                    "Private Photography Sessions",
-                  ].map((item, index) => (
-                    <li key={index} className="flex items-center gap-3">
-                      <XCircle className="h-5 w-5 text-red-500 flex-shrink-0" />
-                      <span className="text-gray-700">{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </CardContent>
-            </Card>
-
-            {/* Cultural Guidelines & Information */}
-            <Card className="border-0 shadow-xl bg-gradient-to-br from-amber-50 to-white">
-              <CardHeader className="pb-6">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="bg-amber-500 rounded-full p-3">
-                    <AlertTriangle className="h-6 w-6 text-white" />
-                  </div>
-                  <CardTitle className="text-2xl font-bold text-amber-900">Cultural Guidelines</CardTitle>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-6">
-                  <div>
-                    <h4 className="font-bold text-gray-900 mb-2 flex items-center gap-2">
-                      <Users className="h-4 w-4 text-amber-600" />
-                      Respectful Interaction
-                    </h4>
-                    <p className="text-gray-700">
-                      Cultural sensitivity training provided. Dress code guidelines included
-                    </p>
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-gray-900 mb-2 flex items-center gap-2">
-                      <Camera className="h-4 w-4 text-amber-600" />
-                      Photography Ethics
-                    </h4>
-                    <p className="text-gray-700">Permission required for photos. Some ceremonies may be off-limits</p>
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-gray-900 mb-2 flex items-center gap-2">
-                      <Globe className="h-4 w-4 text-amber-600" />
-                      Language Barriers
-                    </h4>
-                    <p className="text-gray-700">Professional interpreters provided. Basic language lessons included</p>
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-gray-900 mb-2 flex items-center gap-2">
-                      <Calendar className="h-4 w-4 text-amber-600" />
-                      Best Cultural Seasons
-                    </h4>
-                    <p className="text-gray-700">Year-round availability. Special ceremonies during harvest seasons</p>
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-gray-900 mb-2 flex items-center gap-2">
-                      <DollarSign className="h-4 w-4 text-amber-600" />
-                      Community Impact
-                    </h4>
-                    <p className="text-gray-700">20% of tour fees directly support community development projects</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+            {culturalTours.map((tour) => (
+              <TourCard key={tour.id} tour={tour} />
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Cultural Tours Collection with Detailed Information */}
-      <section className="py-32 bg-gradient-to-br from-white to-purple-50">
+      {/* Cultural Groups Section */}
+      <section className="py-24 bg-gradient-to-br from-amber-50 to-orange-50">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-24">
-            <div className="inline-flex items-center gap-3 bg-gradient-to-r from-purple-100 to-pink-100 text-purple-700 rounded-full px-8 py-4 mb-8 border border-purple-200">
-              <Award className="h-6 w-6 text-purple-600" />
-              <span className="font-bold text-lg">Authentic Cultural Experiences</span>
-            </div>
-            <h2 className="text-5xl md:text-6xl font-black text-gray-900 mb-8">Cultural Tours</h2>
-            <p className="text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
-              Immerse yourself in East Africa's vibrant cultures with complete community details and authentic
-              experiences
+          <div className="text-center mb-20">
+            <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-8 leading-tight">
+              Cultural
+              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-amber-600 to-orange-600">
+                Communities
+              </span>
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+              Meet and learn from the diverse ethnic groups that call East Africa home.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10 max-w-8xl mx-auto">
-            {culturalTours.map((tour, index) => (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            {[
+              {
+                title: "Maasai People",
+                description: "Semi-nomadic pastoralists known for their distinctive culture and warrior traditions",
+                traditions: ["Cattle herding", "Traditional dances", "Beadwork", "Warrior ceremonies"],
+                region: "Kenya & Tanzania",
+              },
+              {
+                title: "Hadzabe Tribe",
+                description: "One of the last hunter-gatherer tribes in Africa with ancient traditions",
+                traditions: ["Hunting with bows", "Fire making", "Traditional medicine", "Click language"],
+                region: "Northern Tanzania",
+              },
+              {
+                title: "Datoga People",
+                description: "Skilled metalworkers and pastoralists with unique cultural practices",
+                traditions: ["Blacksmithing", "Jewelry making", "Cattle culture", "Traditional clothing"],
+                region: "Northern Tanzania",
+              },
+              {
+                title: "Kikuyu People",
+                description: "Kenya's largest ethnic group with rich agricultural traditions",
+                traditions: ["Farming practices", "Traditional music", "Storytelling", "Craft making"],
+                region: "Central Kenya",
+              },
+              {
+                title: "Samburu People",
+                description: "Closely related to Maasai with distinct cultural practices",
+                traditions: ["Pastoralism", "Traditional dances", "Colorful attire", "Age-set system"],
+                region: "Northern Kenya",
+              },
+              {
+                title: "Chagga People",
+                description: "Mountain people known for their agricultural skills and coffee cultivation",
+                traditions: ["Coffee farming", "Irrigation systems", "Traditional brewing", "Mountain culture"],
+                region: "Mount Kilimanjaro",
+              },
+            ].map((group, index) => (
               <Card
-                key={tour.id}
-                className="overflow-hidden group hover:shadow-2xl transition-all duration-500 border-0 shadow-xl bg-white transform hover:-translate-y-3"
+                key={index}
+                className="hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 border-0 bg-white"
               >
-                <div className="relative h-80">
-                  <Image
-                    src={
-                      tour.images[0] || "/placeholder.svg?height=320&width=480&query=african cultural traditions maasai"
-                    }
-                    alt={tour.title}
-                    fill
-                    className="object-cover group-hover:scale-110 transition-transform duration-700"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-
-                  <div className="absolute top-6 left-6 flex gap-3">
-                    <Badge className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white px-4 py-2 text-sm font-bold">
-                      {tour.category}
-                    </Badge>
-                    <Badge className="bg-gradient-to-r from-pink-600 to-purple-600 text-white px-4 py-2 font-bold">
-                      From ${tour.price}
+                <CardContent className="p-8">
+                  <h3 className="text-xl font-bold mb-3 text-gray-900">{group.title}</h3>
+                  <p className="text-gray-600 mb-4 leading-relaxed">{group.description}</p>
+                  <div className="mb-4">
+                    <Badge variant="outline" className="bg-amber-50 text-amber-700 border-amber-200 mb-2">
+                      {group.region}
                     </Badge>
                   </div>
-
-                  <div className="absolute top-6 right-6 flex gap-2">
-                    <Button
-                      size="sm"
-                      variant="ghost"
-                      className="text-white hover:bg-white/20 rounded-full p-3 backdrop-blur-sm"
-                    >
-                      <Heart className="h-5 w-5" />
-                    </Button>
-                    <Badge className="bg-black/70 text-white px-3 py-2 font-bold backdrop-blur-sm">Authentic</Badge>
-                  </div>
-
-                  <div className="absolute bottom-6 left-6 right-6">
-                    <h3 className="text-2xl font-bold text-white mb-2 line-clamp-2">{tour.title}</h3>
-                    <div className="flex items-center gap-2">
-                      {[...Array(5)].map((_, i) => (
-                        <Star key={i} className="h-5 w-5 fill-yellow-400 text-yellow-400" />
+                  <div className="space-y-2">
+                    <h4 className="font-semibold text-gray-800 text-sm">Traditional Practices:</h4>
+                    <div className="flex flex-wrap gap-2">
+                      {group.traditions.map((tradition, idx) => (
+                        <Badge
+                          key={idx}
+                          variant="outline"
+                          className="bg-orange-50 text-orange-700 border-orange-200 text-xs"
+                        >
+                          {tradition}
+                        </Badge>
                       ))}
-                      <span className="ml-3 text-white/90 font-semibold">{tour.rating} (127 experiences)</span>
                     </div>
-                  </div>
-                </div>
-
-                <CardHeader className="pb-4">
-                  <CardDescription className="text-gray-600 text-base line-clamp-3 leading-relaxed">
-                    {tour.description}
-                  </CardDescription>
-                </CardHeader>
-
-                <CardContent className="pt-0">
-                  {/* Detailed Cultural Information */}
-                  <div className="grid grid-cols-2 gap-4 text-sm mb-6">
-                    <div className="flex items-center gap-2">
-                      <div className="bg-purple-100 rounded-full p-2">
-                        <Clock className="h-4 w-4 text-purple-600" />
-                      </div>
-                      <div>
-                        <div className="font-semibold text-gray-900">{tour.duration}</div>
-                        <div className="text-gray-500 text-xs">Duration</div>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <div className="bg-pink-100 rounded-full p-2">
-                        <Users className="h-4 w-4 text-pink-600" />
-                      </div>
-                      <div>
-                        <div className="font-semibold text-gray-900">
-                          {index === 0 ? "Maasai" : index === 1 ? "Hadzabe" : "Chagga"}
-                        </div>
-                        <div className="text-gray-500 text-xs">Community</div>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <div className="bg-indigo-100 rounded-full p-2">
-                        <Globe className="h-4 w-4 text-indigo-600" />
-                      </div>
-                      <div>
-                        <div className="font-semibold text-gray-900">{tour.groupSize}</div>
-                        <div className="text-gray-500 text-xs">Group Size</div>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <div className="bg-amber-100 rounded-full p-2">
-                        <BookOpen className="h-4 w-4 text-amber-600" />
-                      </div>
-                      <div>
-                        <div className="font-semibold text-gray-900">Immersive</div>
-                        <div className="text-gray-500 text-xs">Experience</div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Cultural Experience & Pricing Information */}
-                  <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl p-4 mb-6">
-                    <div className="flex items-center justify-between mb-3">
-                      <div className="flex items-center gap-2">
-                        <Activity className="h-5 w-5 text-purple-600" />
-                        <span className="font-bold text-lg text-purple-900">
-                          {index === 0 ? "Maasai Village" : index === 1 ? "Hadzabe Hunting" : "Chagga Coffee"}
-                        </span>
-                      </div>
-                      <Badge className="bg-purple-600 text-white">Per Person</Badge>
-                    </div>
-                    <div className="text-sm text-gray-600 space-y-1">
-                      <div className="flex justify-between">
-                        <span>• Cultural guide & interpreter</span>
-                        <span className="font-semibold">Included</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>• Traditional meals & ceremonies</span>
-                        <span className="font-semibold">Included</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>• Community development fee</span>
-                        <span className="font-semibold">Included</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>• Craft workshop participation</span>
-                        <span className="font-semibold">+$50</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Cultural Highlights */}
-                  <div className="mb-6">
-                    <h4 className="font-bold text-lg mb-3 text-gray-900">Cultural Highlights</h4>
-                    <ul className="space-y-2">
-                      {[
-                        "Traditional ceremony participation",
-                        "Authentic community meals with families",
-                        "Cultural storytelling & oral traditions",
-                        "Traditional craft workshops",
-                        "Community development project visit",
-                      ].map((highlight, idx) => (
-                        <li key={idx} className="flex items-center gap-2 text-sm text-gray-600">
-                          <CheckCircle className="h-4 w-4 text-purple-500 flex-shrink-0" />
-                          {highlight}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  {/* Action Buttons */}
-                  <div className="flex gap-3">
-                    <Button
-                      className="flex-1 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white py-3 font-bold shadow-lg hover:shadow-purple-500/25 transition-all duration-300"
-                      asChild
-                    >
-                      <Link href={`/tours/${tour.slug}`}>
-                        <Eye className="h-5 w-5 mr-2" />
-                        Experience Details
-                        <ArrowRight className="h-5 w-5 ml-2" />
-                      </Link>
-                    </Button>
-                    <Button
-                      variant="outline"
-                      className="px-6 py-3 font-bold border-2 border-purple-200 text-purple-600 hover:bg-purple-50 transition-all duration-300 bg-transparent"
-                    >
-                      <Phone className="h-5 w-5 mr-2" />
-                      Quote
-                    </Button>
                   </div>
                 </CardContent>
               </Card>
@@ -436,125 +271,122 @@ export default function CulturalToursPage() {
         </div>
       </section>
 
-      {/* Why Choose Cultural Tours */}
-      <section className="py-32 bg-gradient-to-br from-purple-900 to-pink-800 text-white relative overflow-hidden">
-        <div className="absolute inset-0 bg-black/20" />
-        <div className="absolute top-0 left-0 w-full h-full bg-[url('/placeholder.svg?height=800&width=1200')] bg-cover bg-center opacity-10" />
-
-        <div className="container mx-auto px-4 relative z-10">
+      {/* Cultural Etiquette Section */}
+      <section className="py-24 bg-white">
+        <div className="container mx-auto px-4">
           <div className="text-center mb-20">
-            <h2 className="text-5xl md:text-6xl font-black mb-8">Why Choose Our Cultural Tours?</h2>
-            <p className="text-2xl opacity-90 max-w-4xl mx-auto leading-relaxed">
-              Experience authentic cultural immersion with respect, understanding, and meaningful community impact
+            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-green-100 to-emerald-100 text-green-700 rounded-full px-6 py-3 mb-8 border border-green-200">
+              <Shield className="h-5 w-5 text-green-600" />
+              <span className="font-bold">Cultural Etiquette</span>
+            </div>
+            <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-8 leading-tight">
+              Respectful
+              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-emerald-600">
+                Interaction
+              </span>
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+              Guidelines for respectful and meaningful cultural interactions during your tours.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
-            {[
-              {
-                icon: Users,
-                title: "Authentic Communities",
-                description:
-                  "Direct partnerships with indigenous communities ensuring genuine cultural exchanges and experiences",
-                guarantee: "100% authentic community partnerships",
-              },
-              {
-                icon: Shield,
-                title: "Respectful Tourism",
-                description:
-                  "Ethical cultural tourism that benefits local communities and preserves traditional ways of life",
-                guarantee: "20% of fees support communities",
-              },
-              {
-                icon: Camera,
-                title: "Cultural Documentation",
-                description:
-                  "Professional photography guidance with respect for cultural sensitivities and sacred traditions",
-                guarantee: "Cultural photography ethics training",
-              },
-              {
-                icon: Globe,
-                title: "Heritage Preservation",
-                description:
-                  "Supporting the preservation of ancient traditions, languages, and cultural heritage sites",
-                guarantee: "UNESCO heritage site partnerships",
-              },
-            ].map((feature, index) => (
-              <div
-                key={index}
-                className="text-center bg-white/10 backdrop-blur-sm rounded-3xl p-8 border border-white/20 hover:bg-white/15 transition-all duration-300"
-              >
-                <div className="bg-gradient-to-br from-purple-400 to-pink-400 rounded-2xl w-20 h-20 flex items-center justify-center mx-auto mb-6 shadow-2xl">
-                  <feature.icon className="h-10 w-10 text-white" />
+          <div className="grid md:grid-cols-2 gap-12 max-w-6xl mx-auto">
+            <div className="space-y-6">
+              <h3 className="text-2xl font-bold text-gray-900 mb-6">Do's</h3>
+              {[
+                "Ask permission before taking photographs",
+                "Dress modestly and respectfully",
+                "Show genuine interest in local customs",
+                "Participate respectfully in offered activities",
+                "Support local communities through purchases",
+                "Learn basic greetings in local languages",
+              ].map((guideline, index) => (
+                <div key={index} className="flex items-start gap-4">
+                  <CheckCircle className="h-6 w-6 text-green-600 mt-0.5 flex-shrink-0" />
+                  <span className="text-gray-700 leading-relaxed">{guideline}</span>
                 </div>
-                <h3 className="text-2xl font-bold mb-4">{feature.title}</h3>
-                <p className="text-white/80 leading-relaxed mb-4">{feature.description}</p>
-                <Badge className="bg-purple-500/20 text-purple-200 border border-purple-400/30">
-                  {feature.guarantee}
-                </Badge>
-              </div>
-            ))}
+              ))}
+            </div>
+
+            <div className="space-y-6">
+              <h3 className="text-2xl font-bold text-gray-900 mb-6">Don'ts</h3>
+              {[
+                "Don't photograph people without permission",
+                "Avoid making cultural comparisons or judgments",
+                "Don't touch sacred objects or enter restricted areas",
+                "Avoid giving money directly to children",
+                "Don't interrupt religious or cultural ceremonies",
+                "Avoid wearing revealing or inappropriate clothing",
+              ].map((guideline, index) => (
+                <div key={index} className="flex items-start gap-4">
+                  <div className="w-6 h-6 rounded-full bg-red-100 flex items-center justify-center mt-0.5 flex-shrink-0">
+                    <div className="w-3 h-3 bg-red-600 rounded-full" />
+                  </div>
+                  <span className="text-gray-700 leading-relaxed">{guideline}</span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Booking Information & Contact */}
-      <section className="py-32 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-8">Ready for Cultural Immersion?</h2>
-            <p className="text-xl text-gray-600 mb-12">
-              Contact our cultural specialists for community recommendations and respectful travel guidelines
-            </p>
-
-            <div className="grid md:grid-cols-2 gap-8 mb-12">
-              <Card className="border-0 shadow-xl bg-gradient-to-br from-purple-50 to-white p-8">
-                <div className="text-center">
-                  <Phone className="h-12 w-12 text-purple-600 mx-auto mb-4" />
-                  <h3 className="text-2xl font-bold text-gray-900 mb-4">Call Our Cultural Experts</h3>
-                  <p className="text-gray-600 mb-6">Speak with community liaison specialists</p>
-                  <div className="space-y-2">
-                    <div className="text-2xl font-bold text-purple-600">+255 123 456 789</div>
-                    <div className="text-gray-500">Available 8 AM - 6 PM EAT</div>
-                  </div>
-                </div>
-              </Card>
-
-              <Card className="border-0 shadow-xl bg-gradient-to-br from-pink-50 to-white p-8">
-                <div className="text-center">
-                  <Mail className="h-12 w-12 text-pink-600 mx-auto mb-4" />
-                  <h3 className="text-2xl font-bold text-gray-900 mb-4">Get Cultural Guide</h3>
-                  <p className="text-gray-600 mb-6">Receive cultural etiquette & preparation guide</p>
-                  <div className="space-y-2">
-                    <div className="text-xl font-bold text-pink-600">culture@ngonzitours.com</div>
-                    <div className="text-gray-500">Cultural preparation guide included</div>
-                  </div>
-                </div>
-              </Card>
+      {/* CTA Section */}
+      <section className="py-24 bg-gradient-to-r from-orange-600 via-red-600 to-pink-600 text-white relative overflow-hidden">
+        <div className="absolute inset-0 bg-black/20" />
+        <div className="container mx-auto px-4 text-center relative z-10">
+          <div className="max-w-5xl mx-auto">
+            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-6 py-3 mb-8 border border-white/20">
+              <Sparkles className="h-5 w-5 text-yellow-300" />
+              <span className="font-bold">Ready for Cultural Discovery?</span>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-6 justify-center">
+            <h2 className="text-5xl md:text-6xl font-black mb-8 leading-tight">
+              Ready to Discover
+              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-white">
+                Rich Cultures?
+              </span>
+            </h2>
+
+            <p className="text-2xl mb-12 opacity-90 leading-relaxed max-w-4xl mx-auto">
+              Embark on a meaningful cultural journey that will broaden your perspective and create lasting connections
+              with the diverse communities of East Africa.
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-6 justify-center mb-16">
               <Button
                 size="lg"
-                className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-12 py-6 text-xl font-bold shadow-2xl hover:shadow-purple-500/25 transition-all duration-300 transform hover:scale-105"
+                className="bg-white text-orange-600 hover:bg-gray-100 px-12 py-4 text-xl font-bold shadow-2xl hover:shadow-white/25 transition-all duration-300 transform hover:scale-105"
                 asChild
               >
                 <Link href="/contact">
-                  <Users className="h-7 w-7 mr-4" />
-                  Book Cultural Tour
+                  <ArrowRight className="h-6 w-6 mr-3" />
+                  Plan Cultural Tour
                 </Link>
               </Button>
               <Button
                 size="lg"
                 variant="outline"
-                className="border-3 border-purple-600 text-purple-600 hover:bg-purple-600 hover:text-white bg-transparent px-12 py-6 text-xl font-bold transition-all duration-300 transform hover:scale-105"
+                className="border-2 border-white text-white hover:bg-white hover:text-orange-600 bg-transparent px-12 py-4 text-xl font-bold backdrop-blur-sm transition-all duration-300 transform hover:scale-105"
                 asChild
               >
                 <Link href="/tours">
-                  <Globe className="h-7 w-7 mr-4" />
-                  Explore Communities
+                  <Heart className="h-6 w-6 mr-3" />
+                  View All Tours
                 </Link>
               </Button>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+              {[
+                { icon: MapPin, text: "Tanzania • Kenya • Uganda" },
+                { icon: Star, text: "Authentic Experiences" },
+                { icon: Users, text: "Local Community Guides" },
+              ].map((item, index) => (
+                <div key={index} className="flex items-center justify-center gap-3 text-lg">
+                  <item.icon className="h-6 w-6 text-yellow-300" />
+                  <span className="font-semibold">{item.text}</span>
+                </div>
+              ))}
             </div>
           </div>
         </div>

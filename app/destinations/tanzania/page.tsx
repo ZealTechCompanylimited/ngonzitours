@@ -4,6 +4,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import { destinations } from "@/lib/data"
 import {
   Calendar,
   Users,
@@ -59,20 +60,6 @@ const tanzaniaTours = [
     category: "Adventure",
     highlights: ["Uhuru Peak", "Machame Route", "Summit Certificate", "Multiple Climates"],
   },
-  {
-    slug: "zanzibar-beach-escape",
-    name: "Zanzibar Beach Escape",
-    description:
-      "Relax on the pristine white sands of Zanzibar, explore historic Stone Town, and enjoy water activities in the Indian Ocean.",
-    image: "/images/mnemba.jpg",
-    duration: "5 Days / 4 Nights",
-    groupSize: "Any size",
-    price: "From $800",
-    rating: 4.6,
-    reviews: 156,
-    category: "Beach",
-    highlights: ["Stone Town", "Spice Tours", "Pristine Beaches", "Dhow Cruises"],
-  },
 ]
 
 const whyVisitReasons = [
@@ -110,6 +97,8 @@ const stats = [
 ]
 
 export default function TanzaniaPage() {
+  const tanzaniaDestinations = destinations.filter((dest) => dest.country === "Tanzania" && dest.slug !== "zanzibar")
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50">
       {/* Hero Section */}
@@ -374,7 +363,7 @@ export default function TanzaniaPage() {
       {/* Destinations Showcase */}
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
+          <div className="text-center mb-12">
             <div className="inline-flex items-center gap-2 bg-gradient-to-r from-emerald-100 to-cyan-100 text-emerald-700 rounded-full px-6 py-3 mb-6 border border-emerald-200">
               <MapPin className="h-5 w-5" />
               <span className="font-semibold">Must-Visit Places</span>
@@ -443,6 +432,48 @@ export default function TanzaniaPage() {
                   </Button>
                 </CardContent>
               </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Tanzania Destinations Section */}
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h1 className="text-4xl font-bold mb-4">Tanzania Destinations</h1>
+            <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+              Explore Tanzania's incredible diversity, from the vast plains of the Serengeti to the snow-capped peak of
+              Mount Kilimanjaro. Tanzania offers unparalleled natural beauty and adventure opportunities.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {tanzaniaDestinations.map((destination) => (
+              <Link
+                key={destination.id}
+                href={`/destinations/${destination.slug}`}
+                className="group relative h-96 overflow-hidden rounded-lg shadow-lg"
+              >
+                <Image
+                  src={destination.images[0] || "/placeholder.svg"}
+                  alt={destination.name}
+                  fill
+                  className="object-cover group-hover:scale-110 transition-transform duration-300"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent flex flex-col justify-end p-6">
+                  <h3 className="text-white text-2xl font-bold mb-2">{destination.name}</h3>
+                  <p className="text-white/90 line-clamp-3 mb-4">{destination.shortDescription}</p>
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {destination.highlights.slice(0, 3).map((highlight, index) => (
+                      <span key={index} className="bg-white/20 text-white text-xs px-2 py-1 rounded-full">
+                        {highlight}
+                      </span>
+                    ))}
+                  </div>
+                  <span className="text-amber-400 font-medium group-hover:underline">Explore Destination</span>
+                </div>
+              </Link>
             ))}
           </div>
         </div>

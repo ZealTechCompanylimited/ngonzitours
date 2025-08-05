@@ -290,81 +290,30 @@ export default function DestinationsPage() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
             {regularDestinations.map((destination) => (
-              <Card
-                key={destination.slug}
-                className="overflow-hidden group hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 bg-white border-0 shadow-lg"
+              <Link
+                key={destination.id}
+                href={`/destinations/${destination.slug}`}
+                className="group relative h-96 overflow-hidden rounded-lg shadow-lg"
               >
-                <div className="relative h-64">
-                  <Image
-                    src={destination.images[0] || "/placeholder.svg"}
-                    alt={destination.name}
-                    fill
-                    className="object-cover group-hover:scale-110 transition-transform duration-700"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-
-                  <div className="absolute top-4 left-4">
-                    <Badge className="bg-white/90 text-gray-900 font-bold px-3 py-1">{destination.country}</Badge>
+                <Image
+                  src={destination.images[0] || "/placeholder.svg"}
+                  alt={destination.name}
+                  fill
+                  className="object-cover group-hover:scale-110 transition-transform duration-300"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent flex flex-col justify-end p-6">
+                  <h3 className="text-white text-2xl font-bold mb-2">{destination.name}</h3>
+                  <p className="text-white/90 line-clamp-3 mb-4">{destination.shortDescription}</p>
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {destination.highlights.slice(0, 3).map((highlight, index) => (
+                      <span key={index} className="bg-white/20 text-white text-xs px-2 py-1 rounded-full">
+                        {highlight}
+                      </span>
+                    ))}
                   </div>
-
-                  <div className="absolute top-4 right-4">
-                    <Button size="sm" variant="ghost" className="text-white hover:bg-white/20 rounded-full p-2">
-                      <Heart className="h-4 w-4" />
-                    </Button>
-                  </div>
-
-                  <div className="absolute bottom-4 left-4 right-4">
-                    <h3 className="text-xl font-bold text-white mb-2">{destination.name}</h3>
-                    <div className="flex items-center gap-1">
-                      {[...Array(5)].map((_, i) => (
-                        <Star key={i} className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                      ))}
-                      <span className="ml-2 text-sm text-white/90 font-medium">4.8 (156 reviews)</span>
-                    </div>
-                  </div>
+                  <span className="text-amber-400 font-medium group-hover:underline">Explore Destination</span>
                 </div>
-
-                <CardContent className="p-6">
-                  <p className="text-gray-600 text-sm mb-6 line-clamp-2 leading-relaxed">{destination.description}</p>
-
-                  <div className="grid grid-cols-2 gap-4 mb-6">
-                    <div className="bg-orange-50 rounded-lg p-3 text-center">
-                      <Thermometer className="h-4 w-4 text-orange-500 mx-auto mb-1" />
-                      <div className="text-xs font-medium text-gray-900">{destination.climate}</div>
-                    </div>
-                    <div className="bg-blue-50 rounded-lg p-3 text-center">
-                      <Calendar className="h-4 w-4 text-blue-500 mx-auto mb-1" />
-                      <div className="text-xs font-medium text-gray-900">{destination.bestTimeToVisit}</div>
-                    </div>
-                  </div>
-
-                  <div className="mb-6">
-                    <h4 className="font-bold mb-3 text-gray-900">Highlights:</h4>
-                    <div className="flex flex-wrap gap-1">
-                      {destination.highlights.slice(0, 3).map((highlight, index) => (
-                        <Badge key={index} variant="outline" className="text-xs px-2 py-1">
-                          {highlight}
-                        </Badge>
-                      ))}
-                      {destination.highlights.length > 3 && (
-                        <Badge variant="outline" className="text-xs px-2 py-1">
-                          +{destination.highlights.length - 3}
-                        </Badge>
-                      )}
-                    </div>
-                  </div>
-
-                  <Button
-                    className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold py-2.5 shadow-md hover:shadow-blue-500/25 transition-all duration-300"
-                    asChild
-                  >
-                    <Link href={`/destinations/${destination.slug}`}>
-                      <Eye className="h-4 w-4 mr-2" />
-                      Explore Destination
-                    </Link>
-                  </Button>
-                </CardContent>
-              </Card>
+              </Link>
             ))}
           </div>
         </div>

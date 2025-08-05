@@ -1,270 +1,339 @@
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { ImageCarousel } from "@/components/image-carousel"
-import { Star, MapPin, Clock, Users, Award, Shield } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
+import { Button } from "@/components/ui/button"
+import { getFeaturedTours, getFeaturedDestinations, getFeaturedBlogPosts } from "@/lib/data"
+import { Calendar, DollarSign, Users } from "lucide-react"
 
-const heroImages = [
-  "/images/Serengeti.jpg",
-  "/images/twiga.jpg",
-  "/images/zebra.jpg",
-  "/images/swala.jpg",
-  "/images/chui.jpg",
-]
+export default function Home() {
+  const featuredTours = getFeaturedTours().slice(0, 4)
+  const featuredDestinations = getFeaturedDestinations().slice(0, 3)
+  const featuredPosts = getFeaturedBlogPosts().slice(0, 3)
 
-const tourCategories = [
-  {
-    title: "Wildlife Safari",
-    description: "Experience the Big Five in their natural habitat across Tanzania's premier national parks.",
-    image: "/images/swala.jpg",
-    price: "From $1,200",
-    duration: "3-7 days",
-    slug: "wildlife-safari",
-  },
-  {
-    title: "Mountain Climbing",
-    description: "Conquer Mount Kilimanjaro, Africa's highest peak, with our expert guides.",
-    image: "/images/gt1.jpg",
-    price: "From $1,800",
-    duration: "5-9 days",
-    slug: "mountain-climbing",
-  },
-  {
-    title: "Beach Holidays",
-    description: "Relax on pristine beaches of Zanzibar with crystal clear waters and white sand.",
-    image: "/images/mnemba.jpg",
-    price: "From $800",
-    duration: "3-10 days",
-    slug: "beach-holidays",
-  },
-  {
-    title: "Cultural Tours",
-    description: "Immerse yourself in authentic Tanzanian culture with local communities.",
-    image: "/images/picha-man.jpg",
-    price: "From $600",
-    duration: "2-5 days",
-    slug: "cultural-tours",
-  },
-  {
-    title: "Luxury Safari",
-    description: "Premium safari experience with luxury lodges and exclusive game drives.",
-    image: "/images/nyumbu.jpeg",
-    price: "From $2,500",
-    duration: "4-8 days",
-    slug: "luxury-safari",
-  },
-]
-
-const testimonials = [
-  {
-    name: "Sarah Johnson",
-    location: "USA",
-    rating: 5,
-    comment:
-      "Absolutely incredible experience! The wildlife safari exceeded all expectations. Our guide was knowledgeable and the accommodations were perfect.",
-  },
-  {
-    name: "David Smith",
-    location: "UK",
-    rating: 5,
-    comment:
-      "Climbing Kilimanjaro with Ngonzi Tours was the adventure of a lifetime. Professional guides, excellent equipment, and unforgettable memories.",
-  },
-  {
-    name: "Maria Garcia",
-    location: "Spain",
-    rating: 5,
-    comment:
-      "The cultural tour was eye-opening and authentic. We learned so much about Tanzanian traditions and made lasting connections with local communities.",
-  },
-]
-
-const features = [
-  {
-    icon: Award,
-    title: "Expert Guides",
-    description: "Licensed and experienced local guides with deep knowledge of Tanzania's wildlife and culture.",
-  },
-  {
-    icon: Shield,
-    title: "Safety First",
-    description: "Comprehensive safety protocols and insurance coverage for all our tours and activities.",
-  },
-  {
-    icon: Users,
-    title: "Small Groups",
-    description: "Intimate group sizes for personalized attention and better wildlife viewing experiences.",
-  },
-  {
-    icon: MapPin,
-    title: "Local Expertise",
-    description: "Born and raised in Tanzania, we know the best spots and hidden gems off the beaten path.",
-  },
-]
-
-export default function HomePage() {
   return (
-    <div className="min-h-screen">
+    <main>
       {/* Hero Section */}
-      <section className="relative h-screen flex items-center justify-center text-white">
-        <div className="absolute inset-0 z-0">
-          <ImageCarousel images={heroImages} autoPlay={true} interval={5000} />
-          <div className="absolute inset-0 bg-black/40" />
+      <section className="relative h-[80vh] flex items-center">
+        <div className="absolute inset-0">
+          <Image
+            src="/images/Serengeti.jpg"
+            alt="Safari in Africa"
+            fill
+            className="object-cover brightness-50"
+            priority
+          />
         </div>
-
-        <div className="relative z-10 text-center max-w-4xl mx-auto px-4">
-          <h1 className="text-5xl md:text-7xl font-bold mb-6">
-            Discover Tanzania's
-            <span className="text-orange-400 block">Wild Beauty</span>
+        <div className="container relative z-10 text-white">
+          <h1 className="text-5xl md:text-6xl font-bold mb-4">
+            Experience the Magic of <span className="text-amber-400">East Africa</span>
           </h1>
-          <p className="text-xl md:text-2xl mb-8 text-gray-200">
-            Experience unforgettable safaris, climb Kilimanjaro, and explore pristine beaches with Tanzania's premier
-            tour operator
+          <p className="text-xl max-w-2xl mb-8">
+            Unforgettable safari adventures, mountain treks, and beach getaways in Tanzania, Kenya, and Zanzibar.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-orange-600 hover:bg-orange-700 text-lg px-8 py-3" asChild>
+          <div className="flex flex-wrap gap-4">
+            <Button size="lg" asChild>
               <Link href="/tours">Explore Tours</Link>
             </Button>
             <Button
               size="lg"
               variant="outline"
-              className="text-white border-white hover:bg-white hover:text-black text-lg px-8 py-3 bg-transparent"
+              className="text-white border-white hover:bg-white/20 bg-transparent"
               asChild
             >
-              <Link href="/contact">Plan Your Trip</Link>
+              <Link href="/contact">Contact Us</Link>
             </Button>
           </div>
         </div>
       </section>
 
-      {/* Tour Categories */}
-      <section className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Our Tour Categories</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              From thrilling wildlife encounters to cultural immersion, discover the perfect adventure for your Tanzania
-              experience
-            </p>
+      {/* Featured Tours Section */}
+      <section className="py-16 bg-gray-50">
+        <div className="container">
+          <div className="flex justify-between items-center mb-8">
+            <h2 className="text-3xl font-bold">Featured Safari Tours</h2>
+            <Button variant="outline" asChild>
+              <Link href="/tours">View All Tours</Link>
+            </Button>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {tourCategories.map((category, index) => (
-              <Card key={index} className="overflow-hidden hover:shadow-xl transition-shadow duration-300">
-                <div className="relative h-48">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {featuredTours.map((tour) => (
+              <div
+                key={tour.id}
+                className="group relative overflow-hidden rounded-lg shadow-lg bg-white h-[450px] flex flex-col"
+              >
+                <div className="relative h-64 w-full overflow-hidden">
                   <Image
-                    src={category.image || "/placeholder.svg"}
-                    alt={category.title}
+                    src={tour.images[0] || "/placeholder.svg"}
+                    alt={tour.title}
                     fill
-                    className="object-cover"
+                    className="object-cover group-hover:scale-110 transition-transform duration-300"
                   />
-                  <div className="absolute top-4 right-4">
-                    <Badge className="bg-orange-600 text-white">{category.duration}</Badge>
+                  <div className="absolute inset-0 bg-black/30 flex items-end p-4">
+                    <h3 className="text-white text-xl font-bold">{tour.title}</h3>
+                  </div>
+                  <div className="absolute top-4 right-4 bg-white/90 text-black px-3 py-1 rounded-full text-sm font-medium">
+                    {tour.category}
                   </div>
                 </div>
-                <CardHeader>
-                  <CardTitle className="text-xl">{category.title}</CardTitle>
-                  <CardDescription className="text-gray-600">{category.description}</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex justify-between items-center mb-4">
-                    <span className="text-2xl font-bold text-orange-600">{category.price}</span>
-                    <div className="flex items-center">
-                      <Clock className="h-4 w-4 text-gray-500 mr-1" />
-                      <span className="text-sm text-gray-500">{category.duration}</span>
+
+                <div className="p-4 flex-grow">
+                  <div className="flex items-center gap-4 mb-3 text-sm">
+                    <div className="flex items-center gap-1">
+                      <Calendar className="h-4 w-4 text-primary" />
+                      <span>{tour.duration}</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <Users className="h-4 w-4 text-primary" />
+                      <span>{tour.groupSize}</span>
                     </div>
                   </div>
-                  <Button className="w-full bg-orange-600 hover:bg-orange-700" asChild>
-                    <Link href={`/tours/${category.slug}`}>View Details</Link>
-                  </Button>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
 
-      {/* Features Section */}
-      <section className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Why Choose Ngonzi Tours?</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              We're committed to providing exceptional experiences that showcase the best of Tanzania while supporting
-              local communities
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {features.map((feature, index) => (
-              <div key={index} className="text-center">
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-orange-100 rounded-full mb-4">
-                  <feature.icon className="h-8 w-8 text-orange-600" />
+                  <p className="text-muted-foreground line-clamp-2 mb-4">{tour.shortDescription}</p>
                 </div>
-                <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
-                <p className="text-gray-600">{feature.description}</p>
+
+                <div className="p-4 pt-0 mt-auto">
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center gap-1">
+                      <DollarSign className="h-4 w-4 text-primary" />
+                      <span className="font-bold text-lg">${tour.price}</span>
+                      <span className="text-muted-foreground text-sm">/ person</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <span className="text-amber-500">★★★★★</span>
+                      <span className="text-sm">({tour.reviewsCount})</span>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-2">
+                    <Button asChild className="w-full">
+                      <Link href={`/booking?tour=${tour.slug}`}>Book Now</Link>
+                    </Button>
+                    <Button asChild variant="outline" className="w-full bg-transparent">
+                      <Link href={`/tours/${tour.slug}`}>Read More</Link>
+                    </Button>
+                  </div>
+                </div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Testimonials */}
-      <section className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">What Our Guests Say</h2>
-            <p className="text-xl text-gray-600">
-              Don't just take our word for it - hear from travelers who've experienced Tanzania with us
+      {/* Destinations Section */}
+      <section className="py-16">
+        <div className="container">
+          <div className="flex justify-between items-center mb-8">
+            <h2 className="text-3xl font-bold">Top Destinations</h2>
+            <Button variant="outline" asChild>
+              <Link href="/destinations">View All Destinations</Link>
+            </Button>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {featuredDestinations.map((destination) => (
+              <Link
+                key={destination.id}
+                href={`/destinations/${destination.slug}`}
+                className="group relative h-80 overflow-hidden rounded-lg shadow-lg"
+              >
+                <Image
+                  src={destination.images[0] || "/placeholder.svg"}
+                  alt={destination.name}
+                  fill
+                  className="object-cover group-hover:scale-110 transition-transform duration-300"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent flex flex-col justify-end p-6">
+                  <h3 className="text-white text-2xl font-bold mb-2">{destination.name}</h3>
+                  <p className="text-white/90 line-clamp-2 mb-4">{destination.shortDescription}</p>
+                  <span className="text-amber-400 font-medium group-hover:underline">Explore Destination</span>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Why Choose Us Section */}
+      <section className="py-16 bg-gray-50">
+        <div className="container">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold mb-4">Why Choose Ngonzi Tours</h2>
+            <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+              We provide exceptional safari experiences with expert guides, comfortable accommodations, and
+              unforgettable wildlife encounters.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {testimonials.map((testimonial, index) => (
-              <Card key={index} className="bg-white">
-                <CardHeader>
-                  <div className="flex items-center mb-2">
-                    {[...Array(testimonial.rating)].map((_, i) => (
-                      <Star key={i} className="h-5 w-5 text-yellow-400 fill-current" />
-                    ))}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="bg-white p-6 rounded-lg shadow-md text-center">
+              <div className="w-16 h-16 bg-primary/10 text-primary rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="lucide lucide-award"
+                >
+                  <circle cx="12" cy="8" r="6" />
+                  <path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-bold mb-2">Expert Local Guides</h3>
+              <p className="text-muted-foreground">
+                Our guides have decades of experience and intimate knowledge of East African wildlife.
+              </p>
+            </div>
+
+            <div className="bg-white p-6 rounded-lg shadow-md text-center">
+              <div className="w-16 h-16 bg-primary/10 text-primary rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="lucide lucide-jeep"
+                >
+                  <path d="M10 2h4" />
+                  <path d="m21 14-3-8H6L3 14v6h2v2h2v-2h10v2h2v-2h2Z" />
+                  <circle cx="8" cy="16" r="2" />
+                  <circle cx="16" cy="16" r="2" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-bold mb-2">Quality Vehicles</h3>
+              <p className="text-muted-foreground">
+                Comfortable 4x4 safari vehicles with pop-up roofs for optimal wildlife viewing.
+              </p>
+            </div>
+
+            <div className="bg-white p-6 rounded-lg shadow-md text-center">
+              <div className="w-16 h-16 bg-primary/10 text-primary rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="lucide lucide-hotel"
+                >
+                  <path d="M18 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2Z" />
+                  <path d="m9 16 .348-.24c1.465-1.013 3.84-1.013 5.304 0L15 16" />
+                  <path d="M8 7h.01" />
+                  <path d="M16 7h.01" />
+                  <path d="M12 7h.01" />
+                  <path d="M12 11h.01" />
+                  <path d="M16 11h.01" />
+                  <path d="M8 11h.01" />
+                  <path d="M10 22v-6.5m4 0V22" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-bold mb-2">Quality Accommodations</h3>
+              <p className="text-muted-foreground">
+                From luxury lodges to authentic tented camps, we select the best places to stay.
+              </p>
+            </div>
+
+            <div className="bg-white p-6 rounded-lg shadow-md text-center">
+              <div className="w-16 h-16 bg-primary/10 text-primary rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="lucide lucide-heart-handshake"
+                >
+                  <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+                  <path d="M12 5 9.04 7.96a2.17 2.17 0 0 0 0 3.08v0c.82.82 2.13.85 3 .07l2.07-1.9a2.82 2.82 0 0 1 3.79 0l2.96 2.66" />
+                  <path d="m18 15-2-2" />
+                  <path d="m15 18-2-2" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-bold mb-2">Responsible Tourism</h3>
+              <p className="text-muted-foreground">
+                We support local communities and conservation efforts throughout East Africa.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Blog Section */}
+      <section className="py-16">
+        <div className="container">
+          <div className="flex justify-between items-center mb-8">
+            <h2 className="text-3xl font-bold">Travel Insights</h2>
+            <Button variant="outline" asChild>
+              <Link href="/blog">View All Articles</Link>
+            </Button>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {featuredPosts.map((post) => (
+              <Link
+                key={post.id}
+                href={`/blog/${post.slug}`}
+                className="group bg-white rounded-lg shadow-lg overflow-hidden flex flex-col h-full"
+              >
+                <div className="relative h-48 w-full overflow-hidden">
+                  <Image
+                    src={post.image || "/placeholder.svg"}
+                    alt={post.title}
+                    fill
+                    className="object-cover group-hover:scale-110 transition-transform duration-300"
+                  />
+                </div>
+                <div className="p-6 flex flex-col flex-grow">
+                  <div className="flex items-center gap-2 mb-3">
+                    <span className="text-xs font-medium bg-primary/10 text-primary px-2 py-1 rounded-full">
+                      {post.category}
+                    </span>
+                    <span className="text-xs text-muted-foreground">{post.publishedAt}</span>
                   </div>
-                  <CardTitle className="text-lg">{testimonial.name}</CardTitle>
-                  <CardDescription>{testimonial.location}</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-gray-600 italic">"{testimonial.comment}"</p>
-                </CardContent>
-              </Card>
+                  <h3 className="text-xl font-bold mb-2 group-hover:text-primary transition-colors">{post.title}</h3>
+                  <p className="text-muted-foreground line-clamp-3 mb-4">{post.excerpt}</p>
+                  <span className="text-primary font-medium mt-auto group-hover:underline">Read More</span>
+                </div>
+              </Link>
             ))}
           </div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-orange-600 text-white">
-        <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
-          <h2 className="text-4xl font-bold mb-4">Ready for Your Tanzania Adventure?</h2>
-          <p className="text-xl mb-8">
-            Let us create a personalized itinerary that matches your dreams and budget. Contact us today to start
-            planning your unforgettable journey.
+      <section className="py-16 bg-primary text-white">
+        <div className="container text-center">
+          <h2 className="text-3xl font-bold mb-4">Ready for Your African Adventure?</h2>
+          <p className="text-xl max-w-2xl mx-auto mb-8">
+            Contact us today to plan your perfect safari, mountain trek, or beach getaway in East Africa.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" variant="secondary" className="text-orange-600 hover:text-orange-700" asChild>
-              <Link href="/booking">Book Your Tour</Link>
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              className="border-white text-white hover:bg-white hover:text-orange-600 bg-transparent"
-              asChild
-            >
-              <Link href="/contact">Get Custom Quote</Link>
-            </Button>
-          </div>
+          <Button
+            size="lg"
+            variant="outline"
+            className="text-white border-white hover:bg-white/20 bg-transparent"
+            asChild
+          >
+            <Link href="/contact">Contact Us Now</Link>
+          </Button>
         </div>
       </section>
-    </div>
+    </main>
   )
 }
